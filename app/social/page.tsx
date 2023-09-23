@@ -2,22 +2,21 @@
 import { LensLoginButton } from "@/components/LensLoginButton";
 import {
   LensProvider,
-  Profile,
   FeedItem,
   ProfilePictureSet,
   ProfileOwnedByMe,
 } from "@lens-protocol/react-web";
-import { useLensConfig } from "@/lib/lens-config";
+import { lensConfig } from "@/lib/lens-config";
 import { useState, useEffect } from "react";
 import { LensPost } from "@/components/LensPost";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
+
 export default function Social() {
-  const lensConfig = useLensConfig();
-  const [activeLensProfile, setActiveLensProfile] = useState(
-    null as ProfileOwnedByMe | null
-  );
+  const [activeLensProfile, setActiveLensProfile] =
+    useState<ProfileOwnedByMe>();
+
   const [lensFeed, setLensFeed] = useState([] as FeedItem[]);
   const [lensFollowersAddresses, setLensFollowersAddresses] = useState([""]);
 
@@ -29,8 +28,6 @@ export default function Social() {
       router.push("/");
     }
   }, [ready, authenticated, router]);
-
-  if (!lensConfig) return;
 
   const testLens = [
     {
@@ -88,52 +85,52 @@ export default function Social() {
 
   return (
     <div>
-      <LensProvider config={lensConfig}>
-        <main className="flex min-h-screen flex-col items-center">
-          {/* {activeLensProfile && <LensPost profile={activeLensProfile} />} */}
-          <div className="bg-bg w-6/12 rounded-2xl p-10 max-h-[600px] overflow-y-auto">
-            {lensFeed.map((feedItem, i) => (
-              <div
-                key={i}
-                className="flex  border-b-white/20 border-b py-5 text-purple-100 cursor-pointer hover:bg-white/5 transition-all px-3"
-                onClick={() => {
-                  router.push("/social/" + feedItem.root.profile.ownedBy);
-                }}
-              >
-                <img
-                  className="h-12 w-12 rounded-full mr-3"
-                  src={
-                    (feedItem.root.profile.picture as ProfilePictureSet)
-                      ?.original?.url
-                  }
-                />
-                <div className="flex flex-col">
-                  <p className="font-bold">
-                    {feedItem.root.profile.name}{" "}
-                    <span className="ml-1 text-xs text-gray-500 font-normal">
-                      {timeAgo(feedItem.root.createdAt)}
-                    </span>
-                  </p>
-                  <p>{feedItem.root.metadata.content}</p>
+      {ready && authenticated && (
+        <LensProvider config={lensConfig}>
+          <main className="flex min-h-screen flex-col items-center">
+            {/* {activeLensProfile && <LensPost profile={activeLensProfile} />} */}
+            <div className="bg-bg w-6/12 rounded-2xl p-10 max-h-[600px] overflow-y-auto">
+              {lensFeed.map((feedItem, i) => (
+                <div
+                  key={i}
+                  className="flex  border-b-white/20 border-b py-5 text-purple-100 cursor-pointer hover:bg-white/5 transition-all px-3"
+                  onClick={() => {
+                    router.push("/social/" + feedItem.root.profile.ownedBy);
+                  }}
+                >
+                  <img
+                    className="h-12 w-12 rounded-full mr-3"
+                    src={
+                      (feedItem.root.profile.picture as ProfilePictureSet)
+                        ?.original?.url
+                    }
+                  />
+                  <div className="flex flex-col">
+                    <p className="font-bold">
+                      {feedItem.root.profile.name}{" "}
+                      <span className="ml-1 text-xs text-gray-500 font-normal">
+                        {timeAgo(feedItem.root.createdAt)}
+                      </span>
+                    </p>
+                    <p>{feedItem.root.metadata.content}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-            {lensFeed.length === 0 && (
+              ))}
               <p className="text-center text-white/90 text-sm">
                 {activeLensProfile ? "No posts yet" : "Please connect to Lens"}
                 {!activeLensProfile && (
                   <LensLoginButton
-                    setActiveLensProfile={setActiveLensProfile}
-                    activeLensProfile={activeLensProfile}
                     setLensFeed={setLensFeed}
                     setLensFollowersAddresses={setLensFollowersAddresses}
+                    activeLensProfile={activeLensProfile}
+                    setActiveLensProfile={setActiveLensProfile}
                   />
                 )}
               </p>
-            )}
-          </div>
-        </main>
-      </LensProvider>
+            </div>
+          </main>
+        </LensProvider>
+      )}
     </div>
   );
 }

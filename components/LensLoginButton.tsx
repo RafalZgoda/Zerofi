@@ -15,15 +15,15 @@ import { useEffect } from "react";
 import _ from "lodash";
 import { Button } from "./ui/button";
 export function LensLoginButton({
-  setActiveLensProfile,
-  activeLensProfile,
   setLensFeed,
   setLensFollowersAddresses,
+  activeLensProfile,
+  setActiveLensProfile,
 }: {
-  setActiveLensProfile: (profile: ProfileOwnedByMe | null) => void;
-  activeLensProfile: Profile | null;
   setLensFeed: (feed: FeedItem[]) => void;
   setLensFollowersAddresses: (addresses: string[]) => void;
+  activeLensProfile: ProfileOwnedByMe;
+  setActiveLensProfile: (profile: ProfileOwnedByMe) => void;
 }) {
   const {
     execute: login,
@@ -33,21 +33,26 @@ export function LensLoginButton({
   const { ready, authenticated, user } = usePrivy();
   const { data: activeProfile } = useActiveProfile();
   const { data: feedItems } = useFeed({
-    profileId: activeProfile?.id || ("0x78bc" as ProfileId),
+    profileId: activeLensProfile?.id || activeProfile?.id,
     limit: 10,
     metadataFilter: {},
   });
   const { data: followers } = useProfileFollowers({
-    profileId: activeProfile?.id || ("" as ProfileId),
+    profileId: activeLensProfile?.id || activeProfile?.id,
     limit: 10,
   });
   const { data: ownItems } = usePublications({
-    profileId: activeProfile?.id || ("" as ProfileId),
+    profileId: activeLensProfile?.id || activeProfile?.id,
     limit: 1, // demo purpose
   });
 
   useEffect(() => {
-    if (!activeProfile?.id || !activeProfile) return; // Exit if condition is not met
+    if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
+    setActiveLensProfile(activeProfile);
+  });
+
+  useEffect(() => {
+    if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
     let allFeedPosts = [] as FeedItem[];
     if (feedItems) {
       feedItems.forEach((item) => {
@@ -68,17 +73,29 @@ export function LensLoginButton({
     }
     allFeedPosts = _.orderBy(allFeedPosts, ["root.createdAt"], ["desc"]);
     setLensFeed(allFeedPosts);
-  }, [feedItems, activeProfile?.id, setLensFeed, activeProfile, ownItems]);
+  }, [
+    feedItems,
+    activeLensProfile?.id,
+    setLensFeed,
+    activeLensProfile,
+    ownItems,
+  ]);
 
   useEffect(() => {
-    if (!activeProfile?.id || !activeProfile || !followers) return; // Exit if condition is not met
+    if (!activeLensProfile?.id || !activeLensProfile || !followers) return; // Exit if condition is not met
     const followersAddresses = followers.map(
       (follower) => follower.wallet.address
     );
     setLensFollowersAddresses(followersAddresses);
-  }, [followers, activeProfile?.id, setLensFollowersAddresses, activeProfile]);
+  }, [
+    followers,
+    activeLensProfile?.id,
+    setLensFollowersAddresses,
+    activeLensProfile,
+  ]);
 
   const onLoginClick = async () => {
+    console.log("login");
     const address = user?.wallet?.address;
     if (!address) return;
 
@@ -92,6 +109,7 @@ export function LensLoginButton({
         ...profile,
         ownedByMe: true,
       } as ProfileOwnedByMe;
+      console.log('adding profik');
       setActiveLensProfile(profileOwnedByMe);
     }
   };

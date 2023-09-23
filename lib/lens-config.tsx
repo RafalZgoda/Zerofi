@@ -8,38 +8,46 @@ import {
 } from "@lens-protocol/react-web";
 import { useWallets } from "@privy-io/react-auth";
 import { JsonRpcProvider } from "@ethersproject/providers";
+import { bindings as wagmiBindings } from '@lens-protocol/wagmi';
+// export const useLensConfig = (): LensConfig | null => {
+//   const [lensConfig, setLensConfig] = useState<LensConfig | null>(null);
+//   const { wallets } = useWallets();
 
-export const useLensConfig = (): LensConfig | null => {
-  const [lensConfig, setLensConfig] = useState<LensConfig | null>(null);
-  const { wallets } = useWallets();
+//   useEffect(() => {
+//     console.log("useLensConfig");
+//     const wallet = wallets[0];
+//     if (!wallet) return;
 
-  useEffect(() => {
-    const wallet = wallets[0];
-    if (!wallet) return;
+//     const getProvider = async (): Promise<JsonRpcProvider> => {
+//       const provider = await wallet.getEthersProvider();
+//       return provider;
+//     };
 
-    const getProvider = async (): Promise<JsonRpcProvider> => {
-      const provider = await wallet.getEthersProvider();
-      return provider;
-    };
+//     const getSigner = async (): Promise<RequiredSigner> => {
+//       const provider = await wallet.getEthersProvider();
+//       await wallet.switchChain(137);
+//       if (!provider) return null as unknown as RequiredSigner;
+//       const signer = provider.getSigner();
+//       return signer;
+//     };
 
-    const getSigner = async (): Promise<RequiredSigner> => {
-      const provider = await wallet.getEthersProvider();
-      await wallet.switchChain(137);
-      if (!provider) return null as unknown as RequiredSigner;
-      const signer = provider.getSigner();
-      return signer;
-    };
+//     setLensConfig({
+//       appId: appId("zerofi-nyc23"),
+//       sources: [appId("zerofi-nyc23")],
+//       bindings: {
+//         getProvider,
+//         getSigner,
+//       },
+//       environment: production,
+//     });
+//   }, [wallets]);
 
-    setLensConfig({
-      appId: appId("zerofi-nyc23"),
-      sources: [appId("zerofi-nyc23")],
-      bindings: {
-        getProvider,
-        getSigner,
-      },
-      environment: production,
-    });
-  }, [wallets]);
+//   return lensConfig;
+// };
 
-  return lensConfig;
+export const lensConfig = {
+  appId: appId("zerofi-nyc23"),
+  sources: [appId("zerofi-nyc23")],
+  bindings: wagmiBindings(),
+  environment: production,
 };
