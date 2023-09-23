@@ -12,6 +12,7 @@ import {
 import Address from "./ui/address";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 export default function Header() {
   const { ready, authenticated, login, logout, user } = usePrivy();
   const router = useRouter();
@@ -22,10 +23,12 @@ export default function Header() {
         href="/"
         className="flex items-center space-x-2 font-bold w-44 text-xl"
       >
-        ZeroFi
+        <Image alt="logo" src="/logo.png" width={120} height={120} />
       </Link>
       <div className="flex gap-3">
-        <Button variant={"ghost"}>Social</Button>
+        <Button variant={"ghost"} onClick={() => router.push("/social")}>
+          Social
+        </Button>
         <Button variant={"ghost"} onClick={() => router.push("/loans")}>
           Loan
         </Button>
@@ -33,9 +36,7 @@ export default function Header() {
       <div className="w-48">
         {!ready && <Loader2 className="animate-spin" />}
         {ready && !authenticated && (
-          <Button variant={"ghost"} onClick={login}>
-            Connect Wallet
-          </Button>
+          <Button onClick={login}>Connect Wallet</Button>
         )}
         {ready && authenticated && (
           <DropdownMenu>
