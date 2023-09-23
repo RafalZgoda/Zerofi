@@ -97,7 +97,7 @@ export default function Social() {
                 key={i}
                 className="flex  border-b-white/20 border-b py-5 text-purple-100 cursor-pointer hover:bg-white/5 transition-all px-3"
                 onClick={() => {
-                  router.push("/social/" + feedItem.root.profile.ownedBy);
+                  router.push("/profile/" + feedItem.root.profile.ownedBy);
                 }}
               >
                 <img
