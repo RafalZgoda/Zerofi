@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
+    --bg: #100c17a2;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -46,10 +47,20 @@
 }
 
 body {
-  background: rgb(19, 17, 28);
-  background: linear-gradient(
-    90deg,
-    rgba(19, 17, 28, 1) 0%,
-    rgba(37, 14, 45, 1) 100%
+  background: rgb(37, 14, 45);
+  background: radial-gradient(
+    circle,
+    rgba(37, 14, 45, 1) 0%,
+    rgba(19, 17, 28, 1) 100%
   );
+}
+
+.glass {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }

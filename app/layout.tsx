@@ -28,7 +28,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <PrivyProvider
           appId={"clmw6e8nn00agjz0fq7vpdauj"}
-          onSuccess={(user) => {}}
+          onSuccess={(user) => {
+            router.push("/loans");
+          }}
           config={{
             loginMethods: ["email", "wallet"],
             appearance: {
