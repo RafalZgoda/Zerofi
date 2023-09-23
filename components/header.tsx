@@ -2,12 +2,14 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePrivy } from "@privy-io/react-auth";
-import { LoaderIcon } from "lucide-react";
+import { ChevronDown, LoaderIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Address from "./ui/address";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 export default function Header() {
   const { ready, authenticated, login, logout, user } = usePrivy();
 
@@ -29,10 +31,13 @@ export default function Header() {
         )}
         {ready && authenticated && (
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              {user?.wallet?.address || user?.email?.address || "Account"}
+            <DropdownMenuTrigger className="outline-none">
+              <Button>
+                <Address address={user?.wallet?.address || ""} />{" "}
+                <ChevronDown className="w-5 ml-2" />
+              </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="bg-white/20 text-white p-3 text-sm">
               {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -40,9 +45,12 @@ export default function Header() {
             <DropdownMenuItem>Team</DropdownMenuItem>
             <DropdownMenuItem>Subscription</DropdownMenuItem> */}
 
-              <Button variant={"ghost"} onClick={logout}>
+              <DropdownMenuItem
+                onClick={logout}
+                className="cursor-pointer hover:border-none"
+              >
                 Logout
-              </Button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}
