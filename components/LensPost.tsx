@@ -17,10 +17,10 @@ export function LensPost({ profile }: { profile: ProfileOwnedByMe }) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    creatLensPost(contentValue);
+    createLensPost(contentValue);
   };
 
-  const creatLensPost = async (content: string) => {
+  const createLensPost = async (content: string) => {
     const postCreated = await create({
       content,
       contentFocus: ContentFocus.TEXT_ONLY,

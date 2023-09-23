@@ -7,9 +7,12 @@ import {
   useFeed,
   useProfileFollowers,
   ProfileOwnedByMe,
+  usePublications,
+  Post,
 } from "@lens-protocol/react-web";
 import { usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
+import _ from "lodash";
 export function LensLoginButton({
   setActiveLensProfile,
   activeLensProfile,
@@ -26,7 +29,7 @@ export function LensLoginButton({
     error: loginError,
     isPending: isLoginPending,
   } = useWalletLogin();
-  const { ready, authenticated, logout, user } = usePrivy();
+  const { ready, authenticated, user } = usePrivy();
   const { data: activeProfile } = useActiveProfile();
   const { data: feedItems } = useFeed({
     profileId: activeProfile?.id || ("" as ProfileId),
@@ -37,12 +40,34 @@ export function LensLoginButton({
     profileId: activeProfile?.id || ("" as ProfileId),
     limit: 10,
   });
+  const { data: ownItems } = usePublications({
+    profileId: activeProfile?.id || ("" as ProfileId),
+    limit: 1, // demo purpose
+  });
 
   useEffect(() => {
-    if (!activeProfile?.id || !activeProfile || !feedItems) return; // Exit if condition is not met
-    const post = feedItems.filter((item) => item.root.__typename === "Post");
-    setLensFeed(post);
-  }, [feedItems, activeProfile?.id, setLensFeed, activeProfile]);
+    if (!activeProfile?.id || !activeProfile) return; // Exit if condition is not met
+    let allFeedPosts = [] as FeedItem[];
+    if (feedItems) {
+      feedItems.forEach((item) => {
+        if (item.root.__typename === "Post") {
+          allFeedPosts.push(item);
+        }
+      });
+    }
+    if (ownItems) {
+      (ownItems as Post[]).forEach((item) => {
+        if (item?.__typename === "Post") {
+          const feedItem = {
+            root: item,
+          } as unknown as FeedItem;
+          allFeedPosts.push(feedItem);
+        }
+      });
+    }
+    allFeedPosts = _.orderBy(allFeedPosts, ["root.createdAt"], ["desc"]);
+    setLensFeed(allFeedPosts);
+  }, [feedItems, activeProfile?.id, setLensFeed, activeProfile, ownItems]);
 
   useEffect(() => {
     if (!activeProfile?.id || !activeProfile || !followers) return; // Exit if condition is not met
