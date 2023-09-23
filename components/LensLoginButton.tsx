@@ -10,6 +10,7 @@ import {
 } from "@lens-protocol/react-web";
 import { usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
+import { Button } from "./ui/button";
 export function LensLoginButton({
   setActiveLensProfile,
   activeLensProfile,
@@ -29,7 +30,7 @@ export function LensLoginButton({
   const { ready, authenticated, logout, user } = usePrivy();
   const { data: activeProfile } = useActiveProfile();
   const { data: feedItems } = useFeed({
-    profileId: activeProfile?.id || ("" as ProfileId),
+    profileId: activeProfile?.id || ("0x78bc" as ProfileId),
     limit: 10,
     metadataFilter: {},
   });
@@ -73,15 +74,15 @@ export function LensLoginButton({
   return (
     <div>
       {ready && authenticated && (
-        <div>
+        <div className="text-white font-bold p-5">
           {loginError && <p>{loginError.toString()}</p>}
           {activeLensProfile ? (
             //TODO: check si le profil est pas deja recup
             <p>Logged in as {activeLensProfile?.handle}</p>
           ) : (
-            <button disabled={isLoginPending} onClick={onLoginClick}>
+            <Button disabled={isLoginPending} onClick={onLoginClick}>
               Log in with Lens
-            </button>
+            </Button>
           )}
         </div>
       )}
