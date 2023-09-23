@@ -35,7 +35,7 @@ export default function Header() {
           Loan
         </Button>
       </div>
-      <div className="w-48">
+      <div className="w-48 flex items-center">
         {!ready && <Loader2 className="animate-spin" />}
         {ready && !authenticated && (
           <Button onClick={login}>Connect Wallet</Button>
