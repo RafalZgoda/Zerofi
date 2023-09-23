@@ -30,24 +30,26 @@ This project is a Next.js, TailwindCSS, TypeScript, Express, and Web3 applicatio
    ```sh
    git clone https://github.com/[Your Github Username]/[Project Name].git
 
-
+  ```
    Install the dependencies using pnpm
-sh
-Copy code
+  ```
 pnpm install
+  ```
 Start the development server
-sh
-Copy code
+
+  ```
 pnpm dev
+  ```
 Usage
 [Describe how to use the application here.]
 
 Testing
 Run the tests using the following command:
 
-sh
-Copy code
+  ```
 pnpm test
+  ```
+
 Contribution
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
 
