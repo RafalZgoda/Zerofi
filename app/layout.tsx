@@ -42,6 +42,11 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <img
+            src="/bg.svg"
+            alt="bg"
+            className="w-full absolute top-0 opacity-25 z-[-1]"
+          />
         </PrivyProvider>
       </body>
     </html>

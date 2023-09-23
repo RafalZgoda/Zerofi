@@ -2,10 +2,11 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePrivy } from "@privy-io/react-auth";
-import { ChevronDown, LoaderIcon } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Address from "./ui/address";
@@ -30,7 +31,7 @@ export default function Header() {
         </Button>
       </div>
       <div className="w-48">
-        {!ready && <LoaderIcon className="animate-spin" />}
+        {!ready && <Loader2 className="animate-spin" />}
         {ready && !authenticated && (
           <Button variant={"ghost"} onClick={login}>
             Connect Wallet
@@ -51,10 +52,16 @@ export default function Header() {
             <DropdownMenuItem>Billing</DropdownMenuItem>
             <DropdownMenuItem>Team</DropdownMenuItem>
             <DropdownMenuItem>Subscription</DropdownMenuItem> */}
-
+              <DropdownMenuItem
+                onClick={() => router.push("/profile/" + user?.wallet?.address)}
+                className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
+              >
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="my-2" />
               <DropdownMenuItem
                 onClick={logout}
-                className="cursor-pointer hover:border-none"
+                className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
               >
                 Logout
               </DropdownMenuItem>
