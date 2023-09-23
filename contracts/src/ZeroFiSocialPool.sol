@@ -7,6 +7,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC4626} from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
 import {SignatureChecker} from "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
 
+import {LoanStatus, LoanTerms, Loan} from "./Commons.sol";
 import {RayMath} from "./RayMath.sol";
 import {Ray} from "./Types.sol";
 
@@ -14,29 +15,10 @@ contract ZeroFiSocialPool is ERC4626 {
     using RayMath for Ray;
     using RayMath for uint256;
 
-    enum LoanStatus {
-        Ongoing,
-        Repaid,
-        Defaulted
-    }
-
-    struct LoanTerms {
-        address borrower;
-        uint256 amount;
-        Ray interestRate;
-        uint256 limitRepayDate;
-    }
-
-    struct Loan {
-        LoanTerms terms;
-        uint256 initiationDate;
-        uint256 repayDate; // 0 value means not repaid
-    }
-
     address internal immutable apiSigner;
     uint256 internal virtualTotalAssets;
     mapping(uint256 => bool) apiNonceIsUsed;
-    mapping(uint256 => Loan) loan; // first id is 1
+    mapping(uint256 => Loan) public loan; // first id is 1
     uint256 public nbOfLoansEmitted;
 
     constructor(address _apiSigner, IERC20 __asset) ERC4626(__asset) ERC20("ZeroFi US dollar", "zfUSD") {
@@ -86,6 +68,7 @@ contract ZeroFiSocialPool is ERC4626 {
 
         uint256 amountToRepay = loanRepaid.terms.amount + loanRepaid.terms.amount.mul(
             loanRepaid.terms.interestRate.mul(block.timestamp - loanRepaid.initiationDate));
+        loan[loanId].repayDate = block.timestamp;
         IERC20(asset()).transferFrom(msg.sender, address(this), amountToRepay);
     }
 

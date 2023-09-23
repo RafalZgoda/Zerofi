@@ -26,7 +26,7 @@ export default function MyBorrows() {
           <p className="text-center mb-3 text-sm">My active loans</p>
           {borrows.map((borrow, index) => (
             <Dialog key={index}>
-              <DialogTrigger className="w-full">
+              <DialogTrigger className="w-full mb-3">
                 <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
                   <div>
                     <h1 className="text-xl font-bold">{borrow.amount} ETH</h1>
