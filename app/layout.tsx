@@ -7,6 +7,18 @@ import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
+import {PrivyWagmiConnector} from '@privy-io/wagmi-connector';
+// You can import additional chains from 'wagmi/chains'
+// https://wagmi.sh/react/chains
+import {mainnet, goerli} from '@wagmi/chains';
+import {configureChains} from 'wagmi';
+// You may replace this with your preferred providers
+// https://wagmi.sh/react/providers/configuring-chains#multiple-providers
+import {publicProvider} from 'wagmi/providers/public';
+
+// Replace the chains and providers with the ones used by your app.
+// https://wagmi.sh/react/providers/configuring-chains
+const configureChainsConfig = configureChains([goerli], [publicProvider()]);
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,13 +53,15 @@ export default function RootLayout({
             },
           }}
         >
-          <Header />
-          {children}
-          <img
-            src="/bg.svg"
-            alt="bg"
-            className="w-full h-full absolute top-0 opacity-25 z-[-1] object-cover"
-          />
+          <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig} >
+            <Header />
+            {children}
+            <img
+              src="/bg.svg"
+              alt="bg"
+              className="w-full h-full absolute top-0 opacity-25 z-[-1] object-cover"
+            />
+          </PrivyWagmiConnector>
         </PrivyProvider>
         <Toaster />
       </body>
