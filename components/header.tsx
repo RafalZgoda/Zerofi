@@ -13,6 +13,8 @@ import Address from "./ui/address";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useToast } from "./ui/use-toast";
+import Logo from "./logo";
 export default function Header() {
   const { ready, authenticated, login, logout, user } = usePrivy();
   const router = useRouter();
@@ -23,7 +25,7 @@ export default function Header() {
         href="/"
         className="flex items-center space-x-2 font-bold w-44 text-xl"
       >
-        <Image alt="logo" src="/logo.png" width={120} height={120} />
+        <Logo width={120} height={120} />
       </Link>
       <div className="flex gap-3">
         <Button variant={"ghost"} onClick={() => router.push("/social")}>
