@@ -36,7 +36,7 @@ export default function RootLayout({
             appearance: {
               theme: "light",
               accentColor: "#676FFF",
-              logo: "https://your-logo-url",
+              logo: "/logo-dark.png",
             },
           }}
         >
