@@ -19,7 +19,7 @@ export default function Header() {
     <div className="flex p-3 px-32 text-white w-full justify-between">
       <Link
         href="/"
-        className="flex items-center space-x-2 font-bold w-36 text-xl"
+        className="flex items-center space-x-2 font-bold w-44 text-xl"
       >
         ZeroFi
       </Link>
@@ -29,7 +29,7 @@ export default function Header() {
           Loan
         </Button>
       </div>
-      <div>
+      <div className="w-48">
         {!ready && <LoaderIcon className="animate-spin" />}
         {ready && !authenticated && (
           <Button variant={"ghost"} onClick={login}>

@@ -1,5 +1,6 @@
 import BorrowWidget from "@/components/borrow/borrow-widget";
 import MyBorrows from "@/components/borrow/my-borrows";
+import Pools from "@/components/lend/pools";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LoansPage() {
@@ -28,7 +29,11 @@ export default function LoansPage() {
             <MyBorrows />
           </div>
         </TabsContent>
-        <TabsContent value="loan">Change your password here.</TabsContent>
+        <TabsContent value="loan">
+          <div className="m-auto bg-bg rounded-3xl flex flex-col items-center">
+            <Pools />
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );

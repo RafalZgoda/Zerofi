@@ -14,14 +14,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { ready, authenticated } = usePrivy();
+  const { ready, authenticated, user } = usePrivy();
   const router = useRouter();
 
   useEffect(() => {
     if (ready && !authenticated) {
       router.push("/");
     }
-  }, [ready, authenticated, router]);
+  }, [ready, authenticated, router, user]);
 
   return (
     <html lang="en">
@@ -32,7 +32,7 @@ export default function RootLayout({
             router.push("/loans");
           }}
           config={{
-            loginMethods: ["email", "wallet"],
+            loginMethods: ["wallet"],
             appearance: {
               theme: "light",
               accentColor: "#676FFF",
