@@ -55,6 +55,11 @@ body {
   );
 }
 
+html,
+body {
+  min-height: 100dvh;
+}
+
 .glass {
   /* From https://css.glass */
   background: rgba(255, 255, 255, 0.2);
