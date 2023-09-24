@@ -15,6 +15,8 @@ export default function BorrowWidget({ max }: { max: number }) {
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
 
+  const borrow = async () => {};
+
   return (
     <div className="w-[50%] rounded-3xl z-20 h-[105%] gap-3 bg-[#100c17] flex flex-col py-8 px-16 drop-shadow-lg">
       <h1 className="text-2xl font-bold text-center mb-5">Borrow ETH</h1>
@@ -40,6 +42,7 @@ export default function BorrowWidget({ max }: { max: number }) {
       <Button
         className="mt-3 cursor-pointer bg-white text-black disabled:opacity-50"
         disabled={amount == "0" || duration == "0" || !duration || !amount}
+        onClick={borrow}
       >
         Borrow
       </Button>
