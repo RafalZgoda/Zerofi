@@ -1,0 +1,9 @@
+Arbitrum One 
+token https://arbiscan.io/address/0x873b6390626ce29976372779ec2722e0117ec375
+p2p https://arbiscan.io/address/0xa7fc58e0594c2e8eceffadce2b3d606baf782520#code
+pool https://arbiscan.io/address/0xf046e96e8ceac0122b006fc5244d60ad84385a75#code
+
+Scroll
+token 0x47396Defa70fEEBE4A1332a97Ca5050633e76580
+p2p 0x7721D46Be104156D89d95534f7351549627Ad050
+pool 0xEaAE8cDF5406d052c36E580D681ACc053f44589f
