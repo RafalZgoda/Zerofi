@@ -1,5 +1,6 @@
 "use client";
 
+import WorldcoinButton from "@/components/ui/WorldCoinButton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
@@ -34,15 +35,19 @@ import { getUserOnChainData } from "@/lib/next-id";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export default function Profile({ params }: { params: { address: string } }) {
   const [profile, setProfile] = useState<any>();
+  const { address } = useAccount();
 
   const getUser = async (address: string) => {
     const response = await getUserOnChainData(address);
     console.log(response);
     setProfile(response);
   };
+
+  const isMyProfile = address === params.address;
 
   const borrows = [
     {
@@ -149,8 +154,10 @@ export default function Profile({ params }: { params: { address: string } }) {
             </div>
           </div>
         )}
-
-        {profile && (
+        {profile && isMyProfile && (
+          <WorldcoinButton address={address}></WorldcoinButton>
+        )}
+        {!isMyProfile && profile && (
           <div className="flex text-white gap-5 p-5 justify-center items-center">
             <AlertDialog>
               <AlertDialogTrigger>
