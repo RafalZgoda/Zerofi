@@ -10,10 +10,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { poolABI, poolContractAddress } from "@/lib/utils";
 
 export default function BorrowWidget({ max }: { max: number }) {
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
+  const { config, error } = usePrepareContractWrite({
+    address: poolContractAddress as never,
+    abi: poolABI as never,
+    functionName: 'borrow' as never,
+    args: [['0x01897AE155C69495Aa3976CF5987D0D143755eE5', BigInt(1), BigInt(1), BigInt(1)], "0x00", BigInt(1)] as never,
+  })
 
   const borrow = async () => {};
 

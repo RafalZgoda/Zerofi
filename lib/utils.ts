@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Address } from "wagmi";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -23,7 +24,7 @@ export function timeAgo(date: string) {
   }
 }
 
-export const poolContractAddress = "0xac4511cdeb4b7b3373d82bba57ebe3a53f3acca6";
+export const poolContractAddress: Address = "0xac4511cdeb4b7b3373d82bba57ebe3a53f3acca6";
 export const poolABI = [
   {
     inputs: [
@@ -426,4 +427,4 @@ export const poolABI = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
