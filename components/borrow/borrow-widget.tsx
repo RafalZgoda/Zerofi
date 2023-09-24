@@ -106,9 +106,8 @@ export default function BorrowWidget({ score }: { score: string }) {
         limitRepayDate
       );
       console.log({ tx });
-      const txResponse = await signer.sendTransaction(tx);
-      console.log({ txResponse });
       // //TODO: post on lens
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       setRequestTxSuccess(true);
     } catch (error) {
       console.error(error);
@@ -220,7 +219,9 @@ export default function BorrowWidget({ score }: { score: string }) {
                 {parseFloat(amount) - parseFloat(score) > 0 && (
                   <Button
                     variant="outline"
-                    className="mx-auto w-5/12 text-black p-8"
+                    className={`${
+                      requestTxSuccess && "bg-green-300"
+                    } mx-auto w-5/12 text-black p-8`}
                     onClick={() => requestLoan()}
                   >
                     {!requestTxSuccess && requestTxLoading && (
