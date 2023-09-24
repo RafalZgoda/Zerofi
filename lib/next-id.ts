@@ -51,7 +51,7 @@ export const getUserOnChainData = async (identity: string) => {
       identity: neighbor.to.identity,
       profileUrl: neighbor.to.profileUrl,
     };
-    neighbors.push(neighborProfile);
+    neighbors.push(neighborProfile as never);
   }
 
   const userProfile = {
