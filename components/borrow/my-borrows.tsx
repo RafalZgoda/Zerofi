@@ -1,6 +1,7 @@
 import { RocketIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
+import { useAccount } from "wagmi";
 import {
   Dialog,
   DialogContent,
@@ -9,8 +10,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-
+import { socialABI, socialPool } from "@/lib/utils";
+import { getEthersSigner } from "@/lib/signer";
+import { Contract } from "ethers";
 export default function MyBorrows() {
+  const { address } = useAccount();
   const borrows = [
     {
       amount: 3,
@@ -18,8 +22,21 @@ export default function MyBorrows() {
       interest: 25,
       daysLeft: 2,
       owed: 3.75,
+      loanId: 0,
     },
   ];
+
+  async function repay(loanId: number) {
+    const signer = await getEthersSigner();
+    if (!signer || !address) return;
+    const contract = new Contract(socialPool, socialABI, signer);
+    const loadnId = 0;
+    const tx = await contract.repay(loadnId);
+    console.log({ tx });
+    const txResponse = await signer.sendTransaction(tx);
+    console.log({ txResponse });
+    //TODO: post on lens 
+  }
 
   return (
     <div className="w-[50%] rounded-r-3xl z-10 flex flex-col justify-start h-full py-10 px-14">
@@ -59,6 +76,7 @@ export default function MyBorrows() {
                     <Button
                       variant="outline"
                       className="mx-auto w-5/12 text-black"
+                      onClick={() => repay(borrow.loanId)}
                     >
                       Pay {borrow.owed} ETH
                     </Button>
