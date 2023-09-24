@@ -73,32 +73,19 @@ export default function Profile({ params }: { params: { address: string } }) {
     }
   };
 
-  const approve = async () => {
-    try {
-      const s = await axios.post("/api/approve", {
-        beneficiary: params.address,
-        endorser: address,
-      });
-    } catch (e) {
-      toast({
-        title: "Error approve",
-        description: "Little issue with the approve, sorry.",
-      });
-    }
-  };
-
-  const deleteApprove = async (userToApprove: string) => {
-    try {
-      const s = await axios.get("/api/delete-approve", {
-        data: { beneficiary: userToApprove, endorser: address },
-      });
-    } catch (e) {
-      toast({
-        title: "Error approve",
-        description: "Little issue with the approve, sorry.",
-      });
-    }
-  };
+  // const approve = async () => {
+  //   try {
+  //     const s = await axios.post("/api/approve", {
+  //       beneficiary: params.address,
+  //       endorser: address,
+  //     });
+  //   } catch (e) {
+  //     toast({
+  //       title: "Error approve",
+  //       description: "Little issue with the approve, sorry.",
+  //     });
+  //   }
+  // };
 
   const isMyProfile = address === params.address;
 
@@ -171,6 +158,24 @@ export default function Profile({ params }: { params: { address: string } }) {
 
   const approve = async (beneficiary: string) => {
     await axios.post("/api/approve", { endorser: address, beneficiary });
+  };
+
+  const deleteApprove = async (beneficiary: string) => {
+    try {
+      console.log({
+        beneficiary,
+        endorser: address,
+      });
+      const s = await axios.post("/api/delete-approve", {
+        beneficiary,
+        endorser: address,
+      });
+    } catch (e) {
+      toast({
+        title: "Error approve",
+        description: "Little issue with the approve, sorry.",
+      });
+    }
   };
 
   return (
@@ -250,7 +255,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                       <Button
                         variant={"secondary"}
                         className="w-32 bg-green-500 hover:bg-green-500 hover:opacity-80 text-white"
-                        onClick={() => approve()}
+                        // onClick={() => approve(params.address)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -378,7 +383,10 @@ export default function Profile({ params }: { params: { address: string } }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-black">
+                  <AlertDialogAction
+                    className="bg-black"
+                    onClick={() => deleteApprove(params.address)}
+                  >
                     Continue
                   </AlertDialogAction>
                 </AlertDialogFooter>
