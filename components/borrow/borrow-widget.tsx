@@ -26,7 +26,13 @@ import { LoaderIcon, RocketIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useToast } from "../ui/use-toast";
 import axios from "axios";
-export default function BorrowWidget({ score }: { score: string }) {
+export default function BorrowWidget({
+  score,
+  setIsLoanDisplayed,
+}: {
+  score: string;
+  setIsLoanDisplayed: (value: boolean) => void;
+}) {
   const INTEREST_RATE = {
     percentage: 20,
     scNumber: BigInt(6341958396752918000),
@@ -80,6 +86,7 @@ export default function BorrowWidget({ score }: { score: string }) {
       // const txResponse = await signer.sendTransaction(tx);
       // console.log({ txResponse });
       setLoanTxSuccess(true);
+      setIsLoanDisplayed(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -240,7 +247,7 @@ export default function BorrowWidget({ score }: { score: string }) {
                       <p>
                         Successfully requested{" "}
                         <span className="font-bold">
-                          {Math.min(parseFloat(score), Number(amount))} USDC
+                          {parseFloat(amount || "0") - parseFloat(score)} USDC
                         </span>{" "}
                       </p>
                     )}

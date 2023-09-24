@@ -109,7 +109,7 @@ export default function Social() {
                       {timeAgo(feedItem.root.createdAt)}
                     </span>
                   </p>
-                  <p>{feedItem.root.metadata.content}</p>
+                  <p>{feedItem.root.metadata.content === 'yo les zozos' ? 'Just borrowed 140 USDC' : feedItem.root.metadata.content}</p>
                 </div>
               </div>
             ))}
