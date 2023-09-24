@@ -3,7 +3,8 @@ import { getFollowers } from "./getFollowers";
 
 export const getTotalValueFollowers = async (address) => {
   const followers = await getFollowers(address);
-  // console.log({ followers });
+  console.log({ followers: followers.length });
+  if (!followers || followers.length == 0) return 0;
   const followerAddresses = followers.map(
     (follower) => follower.followerAddress.addresses[0]
   );

@@ -42,13 +42,7 @@ export default function Header() {
           Profile
         </Button>
       </div>
-      {/* {!ready && <Loader2 className="animate-spin" />} */}
-      {/* {ready && !authenticated && ( */}
-      {/* <Button onClick={login}>Connect Wallet</Button> */}
-      {/* )} */}
-      {/* {ready && authenticated && ( */}
 
-      {/* )} */}
       <Button>
         <div className="test">
           <ConnectButton />
