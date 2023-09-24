@@ -17,3 +17,8 @@ Base
 token 0xafEFeF08686014AE38f6DBFCbCF02136c1156b64
 p2p - https://goerli.basescan.org/address/0x6217d1128d4dec8ec3993f44910fcca908181180#code
 pool - https://goerli.basescan.org/address/0xEe5d27a1642F1E6Ba52aBeCb110eEf3fd8254Ab0#code
+
+ZkEVM
+token 0xed99be7A25fc3A2Ec67679F8483FcCEDB9eEe178
+p2p - https://zkevm.polygonscan.com/address/0x671fB8f6Fb4f622F7f5235f817841268B299d394#code
+pool - https://zkevm.polygonscan.com/address/0xc5126Eb24430d459Cd810B882C3AD286D380B6bD#code
