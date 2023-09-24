@@ -70,23 +70,24 @@ export const getLoanStatus = async (loanId) => {
 
 const getLoansCreditLine = async (address: string): Promise<number> => {
   const loans = await getLoansList(address);
+  console.log({loans})
   if (loans.length === 0) return 0;
 
   const impactOnCreditLine = loans.reduce((acc, loan) => {
     console.log({ loan });
-    if (loan.status === "DEFAULT") return acc + -loan.terms.amount; // on perd le montant du loan dans son credit score
+    if (loan.status === "DEFAULT") return acc -parseFloat(loan.terms.amount); // on perd le montant du loan dans son credit score
     if (loan.status === "REPAID")
       return (
         acc +
-        ((loan.terms.amount * loan.terms.interestRate) / 100) *
-          loan.terms.duration
+        ((parseFloat(loan.terms.amount) * parseFloat(loan.terms.interestRate)) / 100) *
+        parseFloat(loan.terms.duration)
       ); // on gagne les interets dans son credit score
     return acc;
   }, 0);
 
   console.log({ impactOnCreditLine });
   const creditLine = loans.reduce((acc, loan) => {
-    return acc + loan.terms.amount;
+    return acc + parseFloat(loan.terms.amount);
   }, 0);
   console.log({ creditLine });
   return creditLine;
@@ -131,7 +132,7 @@ const getBoostApproves = async (address: string) => {
   const creditLineApproves = getAllCreditLinesFromEndorser.reduce(
     (acc, creditLine) => {
       console.log({ creditLine });
-      return acc + creditLine * WEIGHT_APPROVE_CREDIT_LINE;
+      return acc + parseFloat(creditLine) * WEIGHT_APPROVE_CREDIT_LINE;
     },
     0
   );
