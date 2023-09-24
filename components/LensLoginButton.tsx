@@ -31,17 +31,16 @@ export function LensLoginButton({
     isPending: isLoginPending,
   } = useWalletLogin();
   const { data: activeLensProfile } = useActiveProfile();
-
   const { data: feedItems } = useFeed({
-    profileId: activeLensProfile?.id,
+    profileId: activeLensProfile?.id as ProfileId,
     limit: 10,
   });
   const { data: followers } = useProfileFollowers({
-    profileId: activeLensProfile?.id,
+    profileId: activeLensProfile?.id as ProfileId,
     limit: 10,
   });
   const { data: ownItems } = usePublications({
-    profileIds: activeLensProfile?.id,
+    profileIds: [activeLensProfile?.id] as ProfileId[],
     limit: 1, // demo purpose
   });
 
