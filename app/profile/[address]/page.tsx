@@ -31,7 +31,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
 import { getUserOnChainData } from "@/lib/next-id";
+import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -39,12 +41,23 @@ import { useAccount } from "wagmi";
 
 export default function Profile({ params }: { params: { address: string } }) {
   const [profile, setProfile] = useState<any>();
+  const [score, setScore] = useState<any>("0");
+  const { toast } = useToast();
   const { address } = useAccount();
 
   const getUser = async (address: string) => {
     const response = await getUserOnChainData(address);
-    console.log(response);
     setProfile(response);
+  };
+
+  const getScore = async (address: string) => {
+    const s = await axios.get("/api/creditScore?address=" + address);
+    if (s.data.message === "0")
+      toast({
+        title: "Oops",
+        description: "Score too low, this user needs to upgrade his score",
+      });
+    setScore(s.data.message);
   };
 
   const isMyProfile = address === params.address;
@@ -91,6 +104,7 @@ export default function Profile({ params }: { params: { address: string } }) {
 
   useEffect(() => {
     getUser(params.address);
+    getScore(params.address);
   }, [params]);
 
   return (
@@ -148,7 +162,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                 </p>
               </div>
               <div className="text-center">
-                <h1 className="font-bold text-2xl">287</h1>
+                <h1 className="font-bold text-2xl">{score}</h1>
                 <Badge variant="secondary">SCORE</Badge>
               </div>
             </div>
