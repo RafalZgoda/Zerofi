@@ -11,7 +11,7 @@ import {ZeroFiSocialPool} from "./ZeroFiSocialPool.sol";
 contract Deploy is Script {
     function run() public {
         vm.startBroadcast();
-        TestCurrency currency = new TestCurrency("test", "TEST");
+        TestCurrency currency = new TestCurrency("USD Coin", "USDC");
         ZeroFiP2PLending p2p = new ZeroFiP2PLending(IERC20(address(currency)));
         ZeroFiSocialPool pool = new ZeroFiSocialPool(0xefBFbf7Ec0eF128376eD0f40Ec8D2A3B8952609a, IERC20(address(currency)));
         currency.mint(100 ether, 0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2);

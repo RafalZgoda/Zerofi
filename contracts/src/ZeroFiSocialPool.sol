@@ -21,7 +21,7 @@ contract ZeroFiSocialPool is ERC4626 {
     mapping(uint256 => Loan) public loan; // first id is 1
     uint256 public nbOfLoansEmitted;
 
-    constructor(address _apiSigner, IERC20 __asset) ERC4626(__asset) ERC20("ZeroFi US dollar", "zfUSD") {
+    constructor(address _apiSigner, IERC20 __asset) ERC4626(__asset) ERC20("ZeroFi USDC", "zfUSDC") {
         apiSigner = _apiSigner;
         initializeState();
     }
@@ -61,7 +61,7 @@ contract ZeroFiSocialPool is ERC4626 {
             repayDate: 0
         });
 
-        IERC20(asset()).transferFrom(address(this), msg.sender, loanTerms.amount);
+        IERC20(asset()).transfer(msg.sender, loanTerms.amount);
     }
 
     function repay(uint256 loanId) external {
