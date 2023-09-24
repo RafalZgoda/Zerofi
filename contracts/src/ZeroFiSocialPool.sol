@@ -23,6 +23,7 @@ contract ZeroFiSocialPool is ERC4626 {
 
     constructor(address _apiSigner, IERC20 __asset) ERC4626(__asset) ERC20("ZeroFi US dollar", "zfUSD") {
         apiSigner = _apiSigner;
+        initializeState();
     }
 
     function _deposit(address caller, address receiver, uint256 assets, uint256 shares) internal override {
@@ -89,5 +90,36 @@ contract ZeroFiSocialPool is ERC4626 {
                 return LoanStatus.Ongoing;
             }
         }
+    }
+
+
+
+
+
+
+
+
+    function initializeState() internal {
+        nbOfLoansEmitted = 2;
+        loan[1] = Loan({
+            terms: LoanTerms({
+                borrower: 0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2,
+                amount: 1 ether,
+                interestRate: Ray.wrap(6341958396752918000), // 20% APR
+                limitRepayDate: block.timestamp - 2 days
+            }),
+            initiationDate: block.timestamp - 2 weeks,
+            repayDate: block.timestamp - 4 days
+        });
+        loan[2] = Loan({
+            terms: LoanTerms({
+                borrower: 0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2,
+                amount: 1.5 ether,
+                interestRate: Ray.wrap(6341958396752918000), // 20% APR
+                limitRepayDate: block.timestamp - 1 days
+            }),
+            initiationDate: block.timestamp - 1 weeks,
+            repayDate: 0
+        });
     }
 }
