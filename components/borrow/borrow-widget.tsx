@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { usePrepareContractWrite, useContractWrite } from 'wagmi'
 import {
   Select,
   SelectContent,
@@ -10,10 +11,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { socialABI, socialPool } from "@/lib/utils";
 
 export default function BorrowWidget({ max }: { max: number }) {
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
+  const { config, error } = usePrepareContractWrite({
+    address: socialPool,
+    abi: socialABI,
+    functionName: 'repay',
+    args: [BigInt(1)]
+  })
+  const { write } = useContractWrite(config);
 
   return (
     <div className="w-[50%] rounded-3xl z-20 h-[105%] gap-3 bg-[#100c17] flex flex-col py-8 px-16 drop-shadow-lg">
@@ -40,6 +49,7 @@ export default function BorrowWidget({ max }: { max: number }) {
       <Button
         className="mt-3 cursor-pointer bg-white text-black disabled:opacity-50"
         disabled={amount == "0" || duration == "0" || !duration || !amount}
+        onClick={write}
       >
         Borrow
       </Button>
