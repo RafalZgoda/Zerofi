@@ -54,7 +54,8 @@ export default function BorrowWidget() {
     const signer = await getEthersSigner();
     if (!signer || !address) return;
     const contract = new Contract(socialPool, socialABI, signer);
-    const amountInWei = BigInt(Number(amount) * 10 ** 18);
+    const authorizedAmount = Math.min(max, Number(amount));
+    const amountInWei = BigInt(Number(authorizedAmount) * 10 ** 18);
     const nowInSec = Math.floor(Date.now() / 1000);
     const durationInSec = Number(duration) * 24 * 60 * 60;
     const limitRepayDate = nowInSec + durationInSec;

@@ -24,7 +24,7 @@ export function timeAgo(date: string) {
   }
 }
 
-export const socialPool: Address = "0x7f87f9E73B5d3365cb3257e2c3Af30EF0ebCaF01";
+export const socialPool: Address = "0x8c768Af8ebd9d692A536c8278b1Ed5Fd54F714c7";
 export const socialABI = [
   {
     inputs: [
