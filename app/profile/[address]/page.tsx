@@ -182,9 +182,9 @@ export default function Profile({ params }: { params: { address: string } }) {
     const myBorrows = allBorrows.find(
       (b) => b.address.toLowerCase() === myAddress.toLowerCase()
     );
-    setMyBorrows(myBorrows.borrows);
-    setMyRequestedBorrows(myBorrows.requestedBorrows);
-    setMyPreviousBorrows(myBorrows.previousBorrows);
+    setMyBorrows(myBorrows?.borrows);
+    setMyRequestedBorrows(myBorrows?.requestedBorrows);
+    setMyPreviousBorrows(myBorrows?.previousBorrows);
   }, [params.address]);
 
   const trusters = [
@@ -546,7 +546,7 @@ export default function Profile({ params }: { params: { address: string } }) {
         <div className="w-5/12 text-white">
           <div className="">
             <p className="text-center mb-3 text-md ">Requested loans</p>
-            {myRequestedBorrows.map((borrow, index) => (
+            {myRequestedBorrows?.map((borrow, index) => (
               <Dialog key={index}>
                 <DialogTrigger className="w-full mb-3">
                   <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
@@ -602,7 +602,7 @@ export default function Profile({ params }: { params: { address: string } }) {
 
           <div className="">
             <p className="text-center mb-3 text-md mt-5 ">Ongoing loans</p>
-            {myBorrows.map((borrow, index) => (
+            {myBorrows?.map((borrow, index) => (
               <Dialog key={index}>
                 <DialogTrigger className="w-full mb-3">
                   <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
@@ -637,13 +637,13 @@ export default function Profile({ params }: { params: { address: string } }) {
             ))}
           </div>
 
-          {myBorrows.length === 0 && (
+          {myBorrows?.length === 0 && (
             <p className="m-auto text-xs text-center mt-10">
               No current borrowing
             </p>
           )}
 
-          {myPreviousBorrows.length > 0 && (
+          {myPreviousBorrows?.length > 0 && (
             <div className="mt-5">
               <p className="text-center mb-3 text-md ">Previous loans</p>
               {myPreviousBorrows.map((borrow, index) => (
