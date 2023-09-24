@@ -41,7 +41,7 @@ import { useAccount } from "wagmi";
 
 export default function Profile({ params }: { params: { address: string } }) {
   const [profile, setProfile] = useState<any>();
-  const [score, setScore] = useState<any>("0");
+  const [score, setScore] = useState<any>();
   const { toast } = useToast();
   const { address } = useAccount();
 
@@ -51,13 +51,23 @@ export default function Profile({ params }: { params: { address: string } }) {
   };
 
   const getScore = async (address: string) => {
-    const s = await axios.get("/api/creditScore?address=" + address);
-    if (s.data.message === "0")
+    try {
+      const s = await axios.get("/api/creditScore?address=" + address);
+      if (s.data.message === "0")
+        toast({
+          title: "Score too low",
+          description:
+            "Score too low, this user needs to improve his social reputation or on chain footprint.",
+        });
+      setScore(s.data.message);
+    } catch (e) {
       toast({
-        title: "Oops",
-        description: "Score too low, this user needs to upgrade his score",
+        title: "Score too low",
+        description:
+          "Score too low, this user needs to improve his social reputation or on chain footprint.",
       });
-    setScore(s.data.message);
+      setScore("0");
+    }
   };
 
   const isMyProfile = address === params.address;
@@ -98,7 +108,7 @@ export default function Profile({ params }: { params: { address: string } }) {
     },
     {
       name: "hello_there_bro.eth",
-      address: "0x6fac2bcca1f5397bf2bc96aa4ae8f35728882761",
+      address: "0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2",
     },
   ];
 
@@ -162,7 +172,10 @@ export default function Profile({ params }: { params: { address: string } }) {
                 </p>
               </div>
               <div className="text-center">
-                <h1 className="font-bold text-2xl">{score}</h1>
+                {score && <h1 className="font-bold text-2xl">{score}$</h1>}
+                {!score && (
+                  <Loader2 className="block mx-auto animate-spin text-white" />
+                )}
                 <Badge variant="secondary">SCORE</Badge>
               </div>
             </div>

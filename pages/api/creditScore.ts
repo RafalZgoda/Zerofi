@@ -12,7 +12,8 @@ export default async function handler(
   const address = addressCap.toLowerCase();
   // console.log({ req });
   const creditLine = await getCreditLine(address);
-  console.log({ creditLine });
+  const formatted = Math.floor(creditLine);
+  console.log({ creditLine, formatted });
 
-  res.status(200).json({ message: creditLine.toString() });
+  res.status(200).json({ message: formatted.toString() });
 }
