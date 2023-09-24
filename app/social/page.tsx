@@ -115,22 +115,20 @@ export default function Social() {
                 </div>
               </div>
             ))}
-            {lensFeed.length === 0 && (
-              <p className="text-center text-white/90 text-sm">
-                {activeLensProfile ? "No posts yet" : "Please connect to Lens"}
-                {!activeLensProfile && (
-                  <LensLoginButton
-                    setLensFeed={setLensFeed}
-                    setLensFollowersAddresses={setLensFollowersAddresses}
-                    activeLensProfile={activeLensProfile}
-                    setActiveLensProfile={setActiveLensProfile}
-                  />
-                )}
-              </p>
-            </div>
-          </main>
-        </LensProvider>
-      )}
+            <p className="text-center text-white/90 text-sm">
+              {activeLensProfile ? "No posts yet" : "Please connect to Lens"}
+              {!activeLensProfile && (
+                <LensLoginButton
+                  setLensFeed={setLensFeed}
+                  setLensFollowersAddresses={setLensFollowersAddresses}
+                  activeLensProfile={activeLensProfile}
+                  setActiveLensProfile={setActiveLensProfile}
+                />
+              )}
+            </p>
+          </div>
+        </main>
+      </LensProvider>
     </div>
   );
 }
