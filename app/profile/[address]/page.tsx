@@ -1,5 +1,6 @@
 "use client";
 
+import WorldcoinButton from "@/components/ui/WorldCoinButton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   AlertDialog,
@@ -30,19 +31,46 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
 import { getUserOnChainData } from "@/lib/next-id";
+import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export default function Profile({ params }: { params: { address: string } }) {
   const [profile, setProfile] = useState<any>();
+  const [score, setScore] = useState<any>();
+  const { toast } = useToast();
+  const { address } = useAccount();
 
   const getUser = async (address: string) => {
     const response = await getUserOnChainData(address);
-    console.log(response);
     setProfile(response);
   };
+
+  const getScore = async (address: string) => {
+    try {
+      const s = await axios.get("/api/creditScore?address=" + address);
+      if (s.data.message === "0")
+        toast({
+          title: "Score too low",
+          description:
+            "Score too low, this user needs to improve his social reputation or on chain footprint.",
+        });
+      setScore(s.data.message);
+    } catch (e) {
+      toast({
+        title: "Score too low",
+        description:
+          "Score too low, this user needs to improve his social reputation or on chain footprint.",
+      });
+      setScore("0");
+    }
+  };
+
+  const isMyProfile = address === params.address;
 
   const borrows = [
     {
@@ -80,12 +108,13 @@ export default function Profile({ params }: { params: { address: string } }) {
     },
     {
       name: "hello_there_bro.eth",
-      address: "0x6fac2bcca1f5397bf2bc96aa4ae8f35728882761",
+      address: "0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2",
     },
   ];
 
   useEffect(() => {
     getUser(params.address);
+    getScore(params.address);
   }, [params]);
 
   return (
@@ -143,14 +172,19 @@ export default function Profile({ params }: { params: { address: string } }) {
                 </p>
               </div>
               <div className="text-center">
-                <h1 className="font-bold text-2xl">287</h1>
+                {score && <h1 className="font-bold text-2xl">{score}$</h1>}
+                {!score && (
+                  <Loader2 className="block mx-auto animate-spin text-white" />
+                )}
                 <Badge variant="secondary">SCORE</Badge>
               </div>
             </div>
           </div>
         )}
-
-        {profile && (
+        {profile && isMyProfile && (
+          <WorldcoinButton address={address}></WorldcoinButton>
+        )}
+        {!isMyProfile && profile && (
           <div className="flex text-white gap-5 p-5 justify-center items-center">
             <AlertDialog>
               <AlertDialogTrigger>
