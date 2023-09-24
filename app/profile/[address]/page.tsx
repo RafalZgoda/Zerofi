@@ -43,6 +43,7 @@ import { useAccount } from "wagmi";
 export default function Profile({ params }: { params: { address: string } }) {
   const [profile, setProfile] = useState<any>();
   const [score, setScore] = useState<any>();
+  const [loans, setLoans] = useState<any[]>([]);
   const { toast } = useToast();
   const router = useRouter();
   const { address } = useAccount();
@@ -151,10 +152,26 @@ export default function Profile({ params }: { params: { address: string } }) {
     },
   ];
 
+  const getBorrows = async () => {
+    const l = await axios.post("/api/loans", {
+      address: "0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2",
+    });
+    setLoans(l.data.message);
+    console.log(l.data.message);
+  };
+
+  useEffect(() => {
+    getBorrows();
+  }, []);
+
   useEffect(() => {
     getUser(params.address);
     getScore(params.address);
   }, [params]);
+
+  const approve = async (beneficiary: string) => {
+    await axios.post("/api/approve", { endorser: address, beneficiary });
+  };
 
   return (
     <div className="flex w-10/12 mx-auto gap-5 mt-5">
@@ -288,7 +305,10 @@ export default function Profile({ params }: { params: { address: string } }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-black">
+                  <AlertDialogAction
+                    className="bg-black"
+                    onClick={() => approve(params.address)}
+                  >
                     Continue
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -446,7 +466,7 @@ export default function Profile({ params }: { params: { address: string } }) {
       </div>
 
       <div className="w-5/12 text-white">
-        {requestedBorrows.length > 0 && (
+        {loans.filter((loan) => loan.status === "1").length > 0 && (
           <div className="">
             <p className="text-center mb-3 text-md ">Requested loans</p>
             {requestedBorrows.map((borrow, index) => (

@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Address } from "viem"
+import { Address } from "viem";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -24,23 +24,24 @@ export function timeAgo(date: string) {
   }
 }
 
-export const socialPool: Address = '0xAC4511CdEb4B7b3373D82BBa57EbE3a53f3accA6'
+export const socialPool: Address = "0xf8986B3DdA96D46375a08d2a6f0F1893ce937360";
+export const p2pLending: Address = "0xd877dfb1a74972C41673D5F72d232C46386Ef5B4";
 export const socialABI = [
   {
     inputs: [
       {
         internalType: "address",
         name: "_apiSigner",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "contract IERC20",
         name: "__asset",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "constructor"
+    type: "constructor",
   },
   {
     anonymous: false,
@@ -49,23 +50,23 @@ export const socialABI = [
         indexed: true,
         internalType: "address",
         name: "owner",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "address",
         name: "spender",
-        type: "address"
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "value",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "Approval",
-    type: "event"
+    type: "event",
   },
   {
     anonymous: false,
@@ -74,29 +75,29 @@ export const socialABI = [
         indexed: true,
         internalType: "address",
         name: "sender",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "address",
         name: "owner",
-        type: "address"
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
+        type: "uint256",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "Deposit",
-    type: "event"
+    type: "event",
   },
   {
     anonymous: false,
@@ -105,23 +106,23 @@ export const socialABI = [
         indexed: true,
         internalType: "address",
         name: "from",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "address",
         name: "to",
-        type: "address"
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "value",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "Transfer",
-    type: "event"
+    type: "event",
   },
   {
     anonymous: false,
@@ -130,83 +131,83 @@ export const socialABI = [
         indexed: true,
         internalType: "address",
         name: "sender",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "address",
         name: "receiver",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "address",
         name: "owner",
-        type: "address"
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
+        type: "uint256",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "Withdraw",
-    type: "event"
+    type: "event",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "owner",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "address",
         name: "spender",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "allowance",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "spender",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "uint256",
         name: "amount",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "approve",
     outputs: [
       {
         internalType: "bool",
         name: "",
-        type: "bool"
-      }
+        type: "bool",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -215,30 +216,30 @@ export const socialABI = [
       {
         internalType: "address",
         name: "",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "account",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "balanceOf",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
@@ -247,87 +248,87 @@ export const socialABI = [
           {
             internalType: "address",
             name: "borrower",
-            type: "address"
+            type: "address",
           },
           {
             internalType: "uint256",
             name: "amount",
-            type: "uint256"
+            type: "uint256",
           },
           {
             internalType: "Ray",
             name: "interestRate",
-            type: "uint256"
+            type: "uint256",
           },
           {
             internalType: "uint256",
             name: "limitRepayDate",
-            type: "uint256"
-          }
+            type: "uint256",
+          },
         ],
         internalType: "struct LoanTerms",
         name: "loanTerms",
-        type: "tuple"
+        type: "tuple",
       },
       {
         internalType: "bytes",
         name: "apiSignature",
-        type: "bytes"
+        type: "bytes",
       },
       {
         internalType: "uint256",
         name: "apiNonce",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "borrow",
     outputs: [
       {
         internalType: "uint256",
         name: "loanId",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "convertToAssets",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "convertToShares",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -336,91 +337,91 @@ export const socialABI = [
       {
         internalType: "uint8",
         name: "",
-        type: "uint8"
-      }
+        type: "uint8",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "spender",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "uint256",
         name: "subtractedValue",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "decreaseAllowance",
     outputs: [
       {
         internalType: "bool",
         name: "",
-        type: "bool"
-      }
+        type: "bool",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
+        type: "uint256",
       },
       {
         internalType: "address",
         name: "receiver",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "deposit",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "spender",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "uint256",
         name: "addedValue",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "increaseAllowance",
     outputs: [
       {
         internalType: "bool",
         name: "",
-        type: "bool"
-      }
+        type: "bool",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "loan",
     outputs: [
@@ -429,160 +430,160 @@ export const socialABI = [
           {
             internalType: "address",
             name: "borrower",
-            type: "address"
+            type: "address",
           },
           {
             internalType: "uint256",
             name: "amount",
-            type: "uint256"
+            type: "uint256",
           },
           {
             internalType: "Ray",
             name: "interestRate",
-            type: "uint256"
+            type: "uint256",
           },
           {
             internalType: "uint256",
             name: "limitRepayDate",
-            type: "uint256"
-          }
+            type: "uint256",
+          },
         ],
         internalType: "struct LoanTerms",
         name: "terms",
-        type: "tuple"
+        type: "tuple",
       },
       {
         internalType: "uint256",
         name: "initiationDate",
-        type: "uint256"
+        type: "uint256",
       },
       {
         internalType: "uint256",
         name: "repayDate",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "loanId",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "loanStatus",
     outputs: [
       {
         internalType: "enum LoanStatus",
         name: "",
-        type: "uint8"
-      }
+        type: "uint8",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "maxDeposit",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "maxMint",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "owner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "maxRedeem",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "owner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "maxWithdraw",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
+        type: "uint256",
       },
       {
         internalType: "address",
         name: "receiver",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "mint",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -591,11 +592,11 @@ export const socialABI = [
       {
         internalType: "string",
         name: "",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -604,129 +605,129 @@ export const socialABI = [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "previewDeposit",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "previewMint",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "previewRedeem",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "previewWithdraw",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "shares",
-        type: "uint256"
+        type: "uint256",
       },
       {
         internalType: "address",
         name: "receiver",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "address",
         name: "owner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "redeem",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "loanId",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "repay",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -735,11 +736,11 @@ export const socialABI = [
       {
         internalType: "string",
         name: "",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -748,11 +749,11 @@ export const socialABI = [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -761,92 +762,404 @@ export const socialABI = [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "to",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "uint256",
         name: "amount",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "transfer",
     outputs: [
       {
         internalType: "bool",
         name: "",
-        type: "bool"
-      }
+        type: "bool",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "from",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "address",
         name: "to",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "uint256",
         name: "amount",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "transferFrom",
     outputs: [
       {
         internalType: "bool",
         name: "",
-        type: "bool"
-      }
+        type: "bool",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "uint256",
         name: "assets",
-        type: "uint256"
+        type: "uint256",
       },
       {
         internalType: "address",
         name: "receiver",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "address",
         name: "owner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "withdraw",
     outputs: [
       {
         internalType: "uint256",
         name: "",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
-  }
-] as const
+    type: "function",
+  },
+] as const;
+export const p2pABI = [
+  {
+    inputs: [
+      {
+        internalType: "contract IERC20",
+        name: "_asset",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "borrower",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "lender",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "Ray",
+            name: "interestRate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "limitDate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "repayDate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "initiationDate",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct ZeroFiP2PLending.Loan",
+        name: "loan",
+        type: "tuple",
+      },
+    ],
+    name: "LoanInitiated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "borrower",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "Ray",
+            name: "interestRate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct ZeroFiP2PLending.DesiredLoanTerms",
+        name: "terms",
+        type: "tuple",
+      },
+    ],
+    name: "LoanRequested",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "asset",
+    outputs: [
+      {
+        internalType: "contract IERC20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "desiredLoans",
+    outputs: [
+      {
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "Ray",
+        name: "interestRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "loanId",
+        type: "uint256",
+      },
+    ],
+    name: "getLoanStatus",
+    outputs: [
+      {
+        internalType: "enum LoanStatus",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "desiredLoanId",
+        type: "uint256",
+      },
+    ],
+    name: "lend",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "loanId",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "loan",
+    outputs: [
+      {
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "lender",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "Ray",
+        name: "interestRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "limitDate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "repayDate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "initiationDate",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nbOfDesiredLoans",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nbOfLoans",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "loanId",
+        type: "uint256",
+      },
+    ],
+    name: "repay",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "Ray",
+        name: "interestRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+    ],
+    name: "requestLoan",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;

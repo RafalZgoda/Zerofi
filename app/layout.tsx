@@ -1,29 +1,27 @@
 "use client";
 
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 
-import {
-  getDefaultWallets,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import Header from "@/components/header";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
-import { configureChains, mainnet, createConfig, WagmiConfig } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
+import { configureChains, mainnet, createConfig, WagmiConfig } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+import { goerli, polygon } from "viem/chains";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet],
-  [publicProvider()],
-)
+  [mainnet, polygon, goerli],
+  [publicProvider()]
+);
 
 const { connectors } = getDefaultWallets({
-  appName: 'Zero Fi',
-  projectId: 'YOUR_PROJECT_ID',
-  chains
+  appName: "Zero Fi",
+  projectId: "YOUR_PROJECT_ID",
+  chains,
 });
 
 const config = createConfig({
@@ -31,7 +29,7 @@ const config = createConfig({
   connectors,
   publicClient,
   webSocketPublicClient,
-})
+});
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,20 +48,20 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <WagmiConfig config={config}>
-      <RainbowKitProvider chains={chains}>
       <body className={inter.className}>
-          <Header />
-          {children}
-          <img
-            src="/bg.svg"
-            alt="bg"
-            className="w-full h-full absolute top-0 opacity-25 z-[-1] object-cover"
-          />
-        <Toaster />
+        <WagmiConfig config={config}>
+          <RainbowKitProvider chains={chains}>
+            <Header />
+            {children}
+            <img
+              src="/bg.svg"
+              alt="bg"
+              className="w-full h-full absolute top-0 opacity-25 z-[-1] object-cover"
+            />
+            <Toaster />
+          </RainbowKitProvider>
+        </WagmiConfig>
       </body>
-      </RainbowKitProvider>
-      </WagmiConfig>
     </html>
   );
 }

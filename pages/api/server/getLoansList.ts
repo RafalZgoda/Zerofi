@@ -7,11 +7,12 @@ import { getDataFromSupabase } from "../supabase";
 const WEIGHT_APPROVE_CREDIT_LINE = 0.1;
 
 const getContract = () => {
-  const NEXT_WEB3_RPC = process.env.NEXT_WEB3_RPC;
-  if (!NEXT_WEB3_RPC) throw new Error("NEXT_WEB3_RPC is not defined");
+  const NEXT_WEB3_TESNET_RPC = process.env.NEXT_WEB3_TESNET_RPC;
+  if (!NEXT_WEB3_TESNET_RPC)
+    throw new Error("NEXT_WEB3_TESNET_RPC is not defined");
 
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.NEXT_WEB3_RPC
+    process.env.NEXT_WEB3_TESNET_RPC
   );
   const contract = new ethers.Contract(socialPool, socialABI, provider);
   return contract;
@@ -24,17 +25,24 @@ export const getLoansList = async (address: string): Promise<any> => {
 
   try {
     const nbOfLoansEmitted = await contract.nbOfLoansEmitted();
-    console.log({ nbOfLoansEmitted });
     if (nbOfLoansEmitted.toNumber() === 0) return [];
+    console.log({ nbOfLoansEmitted });
 
     for (let i = 0; i < nbOfLoansEmitted; i++) {
       const loan = await contract.loan(i);
-      if (loan.terms.borrower === address) {
+      if (loan.terms.borrower.toLowerCase() === address.toLowerCase()) {
         const status = await contract.loanStatus(i);
-        relevantLoans.push({ loan, status });
+        relevantLoans.push({
+          terms: {
+            borrower: loan.terms.borrower,
+            amount: loan.terms.amount.toString(),
+            duration: loan.terms.limitRepayDate.toString(),
+            interestRate: 0.2,
+          },
+          status,
+        });
       }
     }
-
     return relevantLoans;
   } catch (error) {
     console.error("Error:", error);
@@ -62,23 +70,24 @@ export const getLoanStatus = async (loanId) => {
 
 const getLoansCreditLine = async (address: string): Promise<number> => {
   const loans = await getLoansList(address);
+  console.log({loans})
   if (loans.length === 0) return 0;
 
   const impactOnCreditLine = loans.reduce((acc, loan) => {
     console.log({ loan });
-    if (loan.status === "DEFAULT") return acc + -loan.terms.amount; // on perd le montant du loan dans son credit score
+    if (loan.status === "DEFAULT") return acc -parseFloat(loan.terms.amount); // on perd le montant du loan dans son credit score
     if (loan.status === "REPAID")
       return (
         acc +
-        ((loan.terms.amount * loan.terms.interestRate) / 100) *
-          loan.terms.duration
+        ((parseFloat(loan.terms.amount) * parseFloat(loan.terms.interestRate)) / 100) *
+        parseFloat(loan.terms.duration)
       ); // on gagne les interets dans son credit score
     return acc;
   }, 0);
 
   console.log({ impactOnCreditLine });
   const creditLine = loans.reduce((acc, loan) => {
-    return acc + loan.terms.amount;
+    return acc + parseFloat(loan.terms.amount);
   }, 0);
   console.log({ creditLine });
   return creditLine;
@@ -123,7 +132,7 @@ const getBoostApproves = async (address: string) => {
   const creditLineApproves = getAllCreditLinesFromEndorser.reduce(
     (acc, creditLine) => {
       console.log({ creditLine });
-      return acc + creditLine * WEIGHT_APPROVE_CREDIT_LINE;
+      return acc + parseFloat(creditLine) * WEIGHT_APPROVE_CREDIT_LINE;
     },
     0
   );
