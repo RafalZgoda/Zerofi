@@ -1,15 +1,15 @@
 import { ethers } from "ethers";
 import "dotenv/config";
 
-const WEB3_RPC = process.env.WEB3_RPC;
-if (!process.env.WEB3_RPC) {
+const NEXT_WEB3_RPC = process.env.NEXT_WEB3_RPC;
+if (!process.env.NEXT_WEB3_RPC) {
   console.warn(
-    "No WEB3_RPC environment variable found. Defaulting to Alchemy."
+    "No NEXT_WEB3_RPC environment variable found. Defaulting to Alchemy."
   );
 }
 
 export const getProvider = () => {
-  const provider = new ethers.providers.JsonRpcProvider(WEB3_RPC);
+  const provider = new ethers.providers.JsonRpcProvider(NEXT_WEB3_RPC);
   return provider;
 };
 

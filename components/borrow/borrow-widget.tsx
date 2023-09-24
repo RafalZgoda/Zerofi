@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { usePrepareContractWrite, useContractWrite } from 'wagmi'
+import { usePrepareContractWrite, useContractWrite, useAccount } from "wagmi";
 import {
   Select,
   SelectContent,
@@ -21,16 +21,29 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 
-export default function BorrowWidget({ max }: { max: number }) {
+export default function BorrowWidget() {
+  const max = 5;
+  const { address } = useAccount();
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
   const { config, error } = usePrepareContractWrite({
     address: socialPool,
     abi: socialABI,
-    functionName: 'repay',
-    args: [BigInt(1)]
-  })
+    functionName: "borrow",
+    args: [
+      {
+        amount: BigInt("1"),
+        limitRepayDate: BigInt("1"),
+        borrower: address!,
+        interestRate: BigInt("1"),
+      },
+      "0x",
+      BigInt("123"),
+    ],
+  });
   const { write } = useContractWrite(config);
+
+  const getMaxAmount = async () => {};
 
   return (
     <div className="w-[50%] rounded-3xl z-20 h-[105%] gap-3 bg-[#100c17] flex flex-col py-8 px-16 drop-shadow-lg">
