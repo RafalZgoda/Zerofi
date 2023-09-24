@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { socialABI, socialPool } from "@/lib/utils";
+import { socialABI, socialPool, p2pLending, p2pABI } from "@/lib/utils";
 import { getEthersSigner } from "@/lib/signer";
 import { Contract } from "ethers";
 import {
@@ -22,7 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { RocketIcon } from "lucide-react";
+import { LoaderIcon, RocketIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useToast } from "../ui/use-toast";
 import axios from "axios";
@@ -34,6 +34,10 @@ export default function BorrowWidget({ score }: { score: string }) {
   const { address } = useAccount();
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
+  const [loanTxLoading, setLoanTxLoading] = useState<boolean>(false);
+  const [loanTxSuccess, setLoanTxSuccess] = useState<boolean>(false);
+  const [requestTxLoading, setRequestTxLoading] = useState<boolean>(false);
+  const [requestTxSuccess, setRequestTxSuccess] = useState<boolean>(false);
   // const { config, error } = usePrepareContractWrite({
   //   address: socialPool,
   //   abi: socialABI,
@@ -52,44 +56,65 @@ export default function BorrowWidget({ score }: { score: string }) {
   // const { write } = useContractWrite(config);
 
   async function borrow() {
-    const signer = await getEthersSigner();
-    if (!signer || !address) return;
-    const contract = new Contract(socialPool, socialABI, signer);
-    const authorizedAmount = Math.min(parseFloat(score), Number(amount));
-    const amountInWei = BigInt(Number(authorizedAmount) * 10 ** 18);
-    const nowInSec = Math.floor(Date.now() / 1000);
-    const durationInSec = Number(duration) * 24 * 60 * 60;
-    const limitRepayDate = nowInSec + durationInSec;
-    const loanTerms = [
-      address,
-      amountInWei,
-      INTEREST_RATE.scNumber,
-      limitRepayDate,
-    ];
-    const apiSignature = "0x";
-    const apiNonce = 123;
-    const tx = await contract.borrow(loanTerms, apiSignature, apiNonce);
-    console.log({ tx });
-    const txResponse = await signer.sendTransaction(tx);
-    console.log({ txResponse });
-    //TODO: post on lens
+    try {
+      setLoanTxLoading(true);
+      const signer = await getEthersSigner();
+      if (!signer || !address) return;
+      const contract = new Contract(socialPool, socialABI, signer);
+      const authorizedAmount = Math.min(parseFloat(score), Number(amount));
+      const amountInWei = BigInt(Number(authorizedAmount) * 10 ** 18);
+      const nowInSec = Math.floor(Date.now() / 1000);
+      const durationInSec = Number(duration) * 24 * 60 * 60;
+      const limitRepayDate = nowInSec + durationInSec;
+      const loanTerms = [
+        address,
+        amountInWei,
+        INTEREST_RATE.scNumber,
+        limitRepayDate,
+      ];
+      const apiSignature = "0x";
+      const apiNonce = 123;
+      const tx = await contract.borrow(loanTerms, apiSignature, apiNonce);
+      console.log({ tx });
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // const txResponse = await signer.sendTransaction(tx);
+      // console.log({ txResponse });
+      setLoanTxSuccess(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoanTxLoading(false);
+    }
   }
 
   async function requestLoan() {
-    console.log("requestLoan");
-    // const signer = await getEthersSigner();
-    // if (!signer || !address) return;
-    // const contract = new Contract(p2pLending, p2pABI, signer);
-    // const amountInWei = Number(amount) * 10 ** 18;
-    // const nowInSec = Math.floor(Date.now() / 1000);
-    // const durationInSec = Number(duration) * 24 * 60 * 60;
-    // const limitRepayDate = nowInSec + durationInSec;
-    // const interestRate = INTEREST_RATE.scNumber;
-    // const tx = await contract.requestLoan(amountInWei, interestRate, limitRepayDate);
-    // console.log({ tx });
-    // const txResponse = await signer.sendTransaction(tx);
-    // console.log({ txResponse });
-    // //TODO: post on lens
+    setRequestTxLoading(true);
+    try {
+      const signer = await getEthersSigner();
+      if (!signer || !address) return;
+      const contract = new Contract(p2pLending, p2pABI, signer);
+      const amountLeft = parseFloat(amount) - parseFloat(score);
+      if (amountLeft <= 0) return;
+      const amountInWei = BigInt(amountLeft * 10 ** 18);
+      const nowInSec = Math.floor(Date.now() / 1000);
+      const durationInSec = Number(duration) * 24 * 60 * 60;
+      const limitRepayDate = nowInSec + durationInSec;
+      const interestRate = INTEREST_RATE.scNumber;
+      const tx = await contract.requestLoan(
+        amountInWei,
+        interestRate,
+        limitRepayDate
+      );
+      console.log({ tx });
+      const txResponse = await signer.sendTransaction(tx);
+      console.log({ txResponse });
+      // //TODO: post on lens
+      setRequestTxSuccess(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setRequestTxLoading(false);
+    }
   }
 
   return (
@@ -160,19 +185,37 @@ export default function BorrowWidget({ score }: { score: string }) {
                   <p>{duration} days to repay</p>
                 </div>
               </Alert>
-              <div className="flex justify-center">
+              <div
+                // className=`flex justify-center>
+                className="flex justify-center"
+              >
                 <Button
                   variant="outline"
-                  className="mx-auto w-5/12 text-black p-8"
+                  className={`${
+                    loanTxSuccess && "bg-green-300"
+                  } mx-auto w-5/12 text-black p-8`}
                   onClick={() => borrow()}
                 >
-                  <p>
-                    Borrow{" "}
-                    <span className="font-bold">
-                      {Math.min(parseFloat(score), Number(amount))} USDC
-                    </span>{" "}
-                    from social pool
-                  </p>
+                  {!loanTxSuccess && loanTxLoading && (
+                    <LoaderIcon className="animate-spin" />
+                  )}
+                  {!loanTxSuccess && !loanTxLoading && (
+                    <p>
+                      Borrow{" "}
+                      <span className="font-bold">
+                        {Math.min(parseFloat(score), Number(amount))} USDC
+                      </span>{" "}
+                      from social pool
+                    </p>
+                  )}
+                  {loanTxSuccess && (
+                    <p>
+                      Successfully borrowed{" "}
+                      <span className="font-bold">
+                        {Math.min(parseFloat(score), Number(amount))} USDC
+                      </span>{" "}
+                    </p>
+                  )}
                 </Button>
                 {parseFloat(amount) - parseFloat(score) > 0 && (
                   <Button
@@ -180,13 +223,26 @@ export default function BorrowWidget({ score }: { score: string }) {
                     className="mx-auto w-5/12 text-black p-8"
                     onClick={() => requestLoan()}
                   >
-                    <p>
-                      Ask{" "}
-                      <span className="font-bold">
-                        {parseFloat(amount || "0") - parseFloat(score)} USDC
-                      </span>{" "}
-                      to your network
-                    </p>
+                    {!requestTxSuccess && requestTxLoading && (
+                      <LoaderIcon className="animate-spin" />
+                    )}
+                    {!requestTxSuccess && !requestTxLoading && (
+                      <p>
+                        Ask{" "}
+                        <span className="font-bold">
+                          {parseFloat(amount || "0") - parseFloat(score)} USDC
+                        </span>{" "}
+                        to your network
+                      </p>
+                    )}
+                    {requestTxSuccess && (
+                      <p>
+                        Successfully requested{" "}
+                        <span className="font-bold">
+                          {Math.min(parseFloat(score), Number(amount))} USDC
+                        </span>{" "}
+                      </p>
+                    )}
                   </Button>
                 )}
               </div>

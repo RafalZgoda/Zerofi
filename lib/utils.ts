@@ -25,6 +25,7 @@ export function timeAgo(date: string) {
 }
 
 export const socialPool: Address = "0x9Eda7F8F083b19D26a3981239fD27f2e7f42aA6D";
+export const p2pLending: Address = "0x3A12D6ED095D21f45160751BdbDFf4965192b9fC";
 export const socialABI = [
   {
     inputs: [
@@ -843,6 +844,318 @@ export const socialABI = [
       {
         internalType: "uint256",
         name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+] as const;
+export const p2pABI = [
+  {
+    inputs: [
+      {
+        internalType: "contract IERC20",
+        name: "_asset",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "borrower",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "lender",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "Ray",
+            name: "interestRate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "limitDate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "repayDate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "initiationDate",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct ZeroFiP2PLending.Loan",
+        name: "loan",
+        type: "tuple",
+      },
+    ],
+    name: "LoanInitiated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "borrower",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "Ray",
+            name: "interestRate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "duration",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct ZeroFiP2PLending.DesiredLoanTerms",
+        name: "terms",
+        type: "tuple",
+      },
+    ],
+    name: "LoanRequested",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "asset",
+    outputs: [
+      {
+        internalType: "contract IERC20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "desiredLoans",
+    outputs: [
+      {
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "Ray",
+        name: "interestRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "loanId",
+        type: "uint256",
+      },
+    ],
+    name: "getLoanStatus",
+    outputs: [
+      {
+        internalType: "enum LoanStatus",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "desiredLoanId",
+        type: "uint256",
+      },
+    ],
+    name: "lend",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "loanId",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "loan",
+    outputs: [
+      {
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "lender",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "Ray",
+        name: "interestRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "limitDate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "repayDate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "initiationDate",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nbOfDesiredLoans",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nbOfLoans",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "loanId",
+        type: "uint256",
+      },
+    ],
+    name: "repay",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "Ray",
+        name: "interestRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
+    ],
+    name: "requestLoan",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
         type: "uint256",
       },
     ],
