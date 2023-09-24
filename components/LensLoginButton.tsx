@@ -7,86 +7,125 @@ import {
   useFeed,
   useProfileFollowers,
   ProfileOwnedByMe,
+  usePublications,
+  Post,
 } from "@lens-protocol/react-web";
-// import { usePrivy } from "@privy-io/react-auth";
+import { useAccount } from "wagmi";
 import { useEffect } from "react";
+import _ from "lodash";
 import { Button } from "./ui/button";
 export function LensLoginButton({
-  setActiveLensProfile,
-  activeLensProfile,
   setLensFeed,
   setLensFollowersAddresses,
-}: {
-  setActiveLensProfile: (profile: ProfileOwnedByMe | null) => void;
-  activeLensProfile: Profile | null;
+}: // activeLensProfile,
+// setActiveLensProfile,
+{
   setLensFeed: (feed: FeedItem[]) => void;
   setLensFollowersAddresses: (addresses: string[]) => void;
+  // activeLensProfile: ProfileOwnedByMe;
+  // setActiveLensProfile: (profile: ProfileOwnedByMe) => void;
 }) {
+  const { address } = useAccount();
   const {
     execute: login,
     error: loginError,
     isPending: isLoginPending,
   } = useWalletLogin();
-  // const { ready, authenticated, logout, user } = usePrivy();
-  const { data: activeProfile } = useActiveProfile();
+  const { data: activeLensProfile } = useActiveProfile();
+
   const { data: feedItems } = useFeed({
-    profileId: activeProfile?.id || ("0x78bc" as ProfileId),
+    profileId: activeLensProfile?.id,
     limit: 10,
-    metadataFilter: {},
   });
   const { data: followers } = useProfileFollowers({
-    profileId: activeProfile?.id || ("" as ProfileId),
+    profileId: activeLensProfile?.id,
     limit: 10,
   });
+  const { data: ownItems } = usePublications({
+    profileIds: activeLensProfile?.id,
+    limit: 1, // demo purpose
+  });
+
+  // useEffect(() => {
+  //   if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
+  //   setActiveLensProfile(activeProfile);
+  // });
 
   useEffect(() => {
-    if (!activeProfile?.id || !activeProfile || !feedItems) return; // Exit if condition is not met
-    const post = feedItems.filter((item) => item.root.__typename === "Post");
-    setLensFeed(post);
-  }, [feedItems, activeProfile?.id, setLensFeed, activeProfile]);
+    if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
+    let allFeedPosts = [] as FeedItem[];
+    if (feedItems) {
+      feedItems.forEach((item) => {
+        if (item.root.__typename === "Post") {
+          allFeedPosts.push(item);
+        }
+      });
+    }
+    if (ownItems) {
+      (ownItems as Post[]).forEach((item) => {
+        if (item?.__typename === "Post") {
+          const feedItem = {
+            root: item,
+          } as unknown as FeedItem;
+          allFeedPosts.push(feedItem);
+        }
+      });
+    }
+    allFeedPosts = _.orderBy(allFeedPosts, ["root.createdAt"], ["desc"]);
+    setLensFeed(allFeedPosts);
+  }, [
+    feedItems,
+    activeLensProfile?.id,
+    setLensFeed,
+    activeLensProfile,
+    ownItems,
+  ]);
 
   useEffect(() => {
-    if (!activeProfile?.id || !activeProfile || !followers) return; // Exit if condition is not met
+    if (!activeLensProfile?.id || !activeLensProfile || !followers) return; // Exit if condition is not met
     const followersAddresses = followers.map(
       (follower) => follower.wallet.address
     );
     setLensFollowersAddresses(followersAddresses);
-  }, [followers, activeProfile?.id, setLensFollowersAddresses, activeProfile]);
+  }, [
+    followers,
+    activeLensProfile?.id,
+    setLensFollowersAddresses,
+    activeLensProfile,
+  ]);
 
   const onLoginClick = async () => {
-    // const address = user?.wallet?.address;
-    const address = "0x78bc";
+    console.log("login");
     if (!address) return;
 
     const loginLensResult = await login({
       address,
     });
-
-    if (loginLensResult) {
-      const profile = loginLensResult.unwrap();
-      const profileOwnedByMe = {
-        ...profile,
-        ownedByMe: true,
-      } as ProfileOwnedByMe;
-      setActiveLensProfile(profileOwnedByMe);
-    }
+    console.log({ loginLensResult });
+    // if (loginLensResult) {
+    //   const profile = loginLensResult.unwrap();
+    //   const profileOwnedByMe = {
+    //     ...profile,
+    //     ownedByMe: true,
+    //   } as ProfileOwnedByMe;
+    //   console.log("adding profik");
+    //   setActiveLensProfile(profileOwnedByMe);
+    // }
   };
 
   return (
     <div>
-      {/* {ready && authenticated && ( */}
-        <div className="text-white font-bold p-5">
-          {loginError && <p>{loginError.toString()}</p>}
-          {activeLensProfile ? (
-            //TODO: check si le profil est pas deja recup
-            <p>Logged in as {activeLensProfile?.handle}</p>
-          ) : (
-            <Button disabled={isLoginPending} onClick={onLoginClick}>
-              Log in with Lens
-            </Button>
-          )}
-        </div>
-      {/* )} */}
+      <div className="text-white font-bold p-5">
+        {loginError && <p>{loginError.toString()}</p>}
+        {activeLensProfile ? (
+          //TODO: check si le profil est pas deja recup
+          <p>Logged in as {activeLensProfile?.handle}</p>
+        ) : (
+          <Button disabled={isLoginPending} onClick={onLoginClick}>
+            Log in with Lens
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
