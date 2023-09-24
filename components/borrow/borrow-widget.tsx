@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { usePrepareContractWrite, useContractWrite, useAccount } from "wagmi";
@@ -20,9 +20,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { useToast } from "../ui/use-toast";
+import axios from "axios";
 
-export default function BorrowWidget() {
-  const max = 5;
+export default function BorrowWidget({ score }: { score: string }) {
   const { address } = useAccount();
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
@@ -43,11 +44,9 @@ export default function BorrowWidget() {
   });
   const { write } = useContractWrite(config);
 
-  const getMaxAmount = async () => {};
-
   return (
     <div className="w-[50%] rounded-3xl z-20 h-[105%] gap-3 bg-[#100c17] flex flex-col py-8 px-16 drop-shadow-lg">
-      <h1 className="text-2xl font-bold text-center mb-5">Borrow ETH</h1>
+      <h1 className="text-2xl font-bold text-center mb-5">Borrow USDC</h1>
       <div className="bg-white/5 rounded-xl px-3 py-5">
         <h1 className="text-sm text-gray-300 pl-3">Borrow Amount</h1>
         <Input
@@ -56,7 +55,7 @@ export default function BorrowWidget() {
           onChange={(e) => setAmount(e.target.value)}
         />
         <p className="text-xs text-right text-gray-600 pr-3">
-          Max {max} instant ETH
+          Max {score} instant USDC
         </p>
       </div>
       <Select value={duration} onValueChange={(value) => setDuration(value)}>
