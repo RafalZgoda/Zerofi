@@ -1,22 +1,10 @@
 import { ethers } from "ethers";
 import "dotenv/config";
-import { socialABI, socialPool } from "../../../lib/utils";
+import { getContract } from "../../../lib/utils";
 import { getCreditLine } from "./getCreditLine";
 import { getDataFromSupabase } from "../supabase";
 
 const WEIGHT_APPROVE_CREDIT_LINE = 0.1;
-
-const getContract = () => {
-  const NEXT_WEB3_TESNET_RPC = process.env.NEXT_WEB3_TESNET_RPC;
-  if (!NEXT_WEB3_TESNET_RPC)
-    throw new Error("NEXT_WEB3_TESNET_RPC is not defined");
-
-  const provider = new ethers.providers.JsonRpcProvider(
-    process.env.NEXT_WEB3_TESNET_RPC
-  );
-  const contract = new ethers.Contract(socialPool, socialABI, provider);
-  return contract;
-};
 
 export const getLoansList = async (address: string): Promise<any> => {
   const contract = getContract();

@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { socialABI, socialPool } from "@/lib/utils";
+import { getChainInfo, socialABI, socialPool } from "@/lib/utils";
 import { getEthersSigner } from "@/lib/signer";
 import { Contract } from "ethers";
 import { useEffect, useState } from "react";
@@ -37,7 +37,11 @@ export default function MyBorrows({
   async function repay(loanId: number) {
     const signer = await getEthersSigner();
     if (!signer || !address) return;
-    const contract = new Contract(socialPool, socialABI, signer);
+    const chainId = signer.provider._network.chainId;
+    const currentChainInfos = getChainInfo(chainId);
+    console.log({ signer, chainId, currentChainInfos });
+
+    const contract = new Contract(currentChainInfos.pool, socialABI, signer);
     const loadnId = 0;
     const tx = await contract.repay(loadnId);
     console.log({ tx });

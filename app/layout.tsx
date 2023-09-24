@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
 import { configureChains, mainnet, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import { goerli, polygon } from "viem/chains";
+import { arbitrum, baseGoerli, goerli, scrollSepolia } from "viem/chains";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, polygon, goerli],
+  [goerli, scrollSepolia, baseGoerli, arbitrum],
   [publicProvider()]
 );
 

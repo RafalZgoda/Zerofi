@@ -15,7 +15,6 @@ export default async function handler(
   endorser = endorser?.toLowerCase();
   beneficiary = beneficiary?.toLowerCase();
   console.log({ endorser, beneficiary, req: req.body });
-  // console.log({ req });
   const store = await storeDataToSupabase({
     supabaseTable: "approves",
     data: { endorser, beneficiary },

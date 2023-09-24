@@ -10,5 +10,10 @@ pool https://arbiscan.io/address/0xe239bfb50eee1a5043e94f07d2787b87470e9d73#code
 
 Scroll
 token 0x57FA0ba64fdBD3961544CbCC3eF3a9CEC0F37654
-p2p 0x9D87c33418Cb365eC3a2149af2b86f538d443b2D
-pool 0x4f01A3e6E4b22D60c39d3030e985dD562782F62B
+p2p https://sepolia.scrollscan.dev/address/0x9D87c33418Cb365eC3a2149af2b86f538d443b2D#code
+pool https://sepolia.scrollscan.dev/address/0x4f01A3e6E4b22D60c39d3030e985dD562782F62B#code
+
+Base
+token 0xafEFeF08686014AE38f6DBFCbCF02136c1156b64
+p2p - https://goerli.basescan.org/address/0x6217d1128d4dec8ec3993f44910fcca908181180#code
+pool - https://goerli.basescan.org/address/0xEe5d27a1642F1E6Ba52aBeCb110eEf3fd8254Ab0#code
