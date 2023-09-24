@@ -79,7 +79,7 @@ export default function Profile({ params }: { params: { address: string } }) {
       address: "0x6fac2bcca1f5397bf2bc96aa4ae8f35728882761",
     },
     {
-      name: "hello.eth",
+      name: "hello_there_bro.eth",
       address: "0x6fac2bcca1f5397bf2bc96aa4ae8f35728882761",
     },
   ];
@@ -329,6 +329,12 @@ export default function Profile({ params }: { params: { address: string } }) {
                     );
                   })}
                 </div>
+              )}
+
+              {profile && trusters.length === 0 && (
+                <p className="text-xs text-center text-white">
+                  Nobody trusted this user
+                </p>
               )}
             </TabsContent>
             <TabsContent value="social">
