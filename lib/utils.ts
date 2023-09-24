@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { ethers } from "ethers";
 import { twMerge } from "tailwind-merge";
 import { Address } from "viem";
 
@@ -23,6 +24,79 @@ export function timeAgo(date: string) {
     return `${new Date(date).toLocaleDateString()}`;
   }
 }
+export const getContract = () => {
+  const NEXT_WEB3_TESNET_RPC = process.env.NEXT_WEB3_TESNET_RPC;
+  if (!NEXT_WEB3_TESNET_RPC)
+    throw new Error("NEXT_WEB3_TESNET_RPC is not defined");
+
+  const provider = new ethers.providers.JsonRpcProvider(
+    process.env.NEXT_WEB3_TESNET_RPC
+  );
+  const contract = new ethers.Contract(socialPool, socialABI, provider);
+  return contract;
+};
+
+export const contractChains = [
+  {
+    chainName: "scrollSepolia",
+    chainId: 534351,
+    token: "0x57FA0ba64fdBD3961544CbCC3eF3a9CEC0F37654",
+    p2p: "0x9D87c33418Cb365eC3a2149af2b86f538d443b2D",
+    pool: "0x4f01A3e6E4b22D60c39d3030e985dD562782F62B",
+  },
+  {
+    chainName: "baseGoerli",
+    chainId: 84531,
+
+    token: "0xafEFeF08686014AE38f6DBFCbCF02136c1156b64",
+    p2p: "0x6217d1128d4dec8ec3993f44910fcca908181180",
+    pool: "0xEe5d27a1642F1E6Ba52aBeCb110eEf3fd8254Ab0",
+  },
+
+  {
+    chainName: "goerli",
+    chainId: 5,
+
+    token: "0xdB6ffA2494192BbC3c664f42a423F6542c5c99ae",
+    p2p: "0x6217d1128d4dec8ec3993f44910fcca908181180",
+    pool: "0xEe5d27a1642F1E6Ba52aBeCb110eEf3fd8254Ab0",
+  },
+  {
+    chainName: "arbitrum",
+    chainId: 42161,
+
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
+];
+//   Goerli
+// token - https://goerli.etherscan.io/address/
+// p2p - https://goerli.etherscan.io/address/#code
+// pool - https://goerli.etherscan.io/address/#code
+
+// Arbitrum One
+// token https://arbiscan.io/address/
+// p2p https://arbiscan.io/address/#code
+// pool https://arbiscan.io/address/#code
+
+// Scroll
+// token
+// p2p https://sepolia.scrollscan.dev/address/#code
+// pool https://sepolia.scrollscan.dev/address/#code
+
+// Base
+// token
+// p2p - https://goerli.basescan.org/address/#code
+// pool - https://goerli.basescan.org/address/#code
+
+export const getChainInfo = (chainId: number) => {
+  const chainInfo = contractChains.find((chain) => chain.chainId === chainId);
+  if (!chainInfo) {
+    throw new Error(`No chain info found for chainId: ${chainId}`);
+  }
+  return chainInfo;
+};
 
 export const socialPool: Address = "0xf8986B3DdA96D46375a08d2a6f0F1893ce937360";
 export const p2pLending: Address = "0xd877dfb1a74972C41673D5F72d232C46386Ef5B4";

@@ -26,6 +26,8 @@ import { LoaderIcon, RocketIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { useToast } from "../ui/use-toast";
 import axios from "axios";
+import { getChainInfo } from "../../lib/utils";
+
 export default function BorrowWidget({ score }: { score: string }) {
   const INTEREST_RATE = {
     percentage: 20,
@@ -60,7 +62,11 @@ export default function BorrowWidget({ score }: { score: string }) {
       setLoanTxLoading(true);
       const signer = await getEthersSigner();
       if (!signer || !address) return;
-      const contract = new Contract(socialPool, socialABI, signer);
+      const chainId = signer.provider._network.chainId;
+      const currentChainInfos = getChainInfo(chainId);
+      console.log({ signer, chainId, currentChainInfos });
+
+      const contract = new Contract(currentChainInfos.pool, socialABI, signer);
       const authorizedAmount = Math.min(parseFloat(score), Number(amount));
       const amountInWei = BigInt(Number(authorizedAmount) * 10 ** 18);
       const nowInSec = Math.floor(Date.now() / 1000);
@@ -92,7 +98,10 @@ export default function BorrowWidget({ score }: { score: string }) {
     try {
       const signer = await getEthersSigner();
       if (!signer || !address) return;
-      const contract = new Contract(p2pLending, p2pABI, signer);
+      const chainId = signer.provider._network.chainId;
+      const currentChainInfos = getChainInfo(chainId);
+      console.log({ signer, chainId, currentChainInfos });
+      const contract = new Contract(currentChainInfos.p2p, p2pABI, signer);
       const amountLeft = parseFloat(amount) - parseFloat(score);
       if (amountLeft <= 0) return;
       const amountInWei = BigInt(amountLeft * 10 ** 18);
