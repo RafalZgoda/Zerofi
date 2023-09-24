@@ -83,9 +83,7 @@ export default function BorrowWidget({ score }: { score: string }) {
       const tx = await contract.borrow(loanTerms, apiSignature, apiNonce);
       console.log({ tx });
       await new Promise((resolve) => setTimeout(resolve, 5000));
-      // const txResponse = await signer.sendTransaction(tx);
-      // console.log({ txResponse });
-      setLoanTxSuccess(true);
+      // const txResponse = await signer.sendTransaction(tx);      setLoanTxSuccess(true);
     } catch (error) {
       console.error(error);
     } finally {
