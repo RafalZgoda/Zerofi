@@ -82,14 +82,17 @@ contract ZeroFiP2PLending {
 
     function getLoanStatus(uint256 loanId) public view returns(LoanStatus) {
         Loan memory loanToCheck = loan[loanId];
-        if (loanToCheck.repayDate == 0) {
-            if (block.timestamp > loanToCheck.limitDate) {
+
+        if (loanToCheck.repayDate != 0) {
+            if (loanToCheck.repayDate > loanToCheck.limitDate) {
                 return LoanStatus.Defaulted;
             } else {
-                return LoanStatus.Ongoing;
+                return LoanStatus.Repaid;
             }
-        } else {
-            return LoanStatus.Repaid;
         }
+        if (block.timestamp > loanToCheck.limitDate) {
+            return LoanStatus.Defaulted;
+        }
+        return LoanStatus.Ongoing;
     }
 }

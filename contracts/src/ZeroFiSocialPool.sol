@@ -83,13 +83,11 @@ contract ZeroFiSocialPool is ERC4626 {
             } else {
                 return LoanStatus.Repaid;
             }
-        } else {
-            if (block.timestamp > loanRequested.terms.limitRepayDate) {
-                return LoanStatus.Defaulted;
-            } else {
-                return LoanStatus.Ongoing;
-            }
         }
+        if (block.timestamp > loanRequested.terms.limitRepayDate) {
+            return LoanStatus.Defaulted;
+        }
+        return LoanStatus.Ongoing;
     }
 
 

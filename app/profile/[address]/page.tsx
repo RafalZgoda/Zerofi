@@ -73,6 +73,33 @@ export default function Profile({ params }: { params: { address: string } }) {
     }
   };
 
+  const approve = async () => {
+    try {
+      const s = await axios.post("/api/approve", {
+        beneficiary: params.address,
+        endorser: address,
+      });
+    } catch (e) {
+      toast({
+        title: "Error approve",
+        description: "Little issue with the approve, sorry.",
+      });
+    }
+  };
+
+  const deleteApprove = async (userToApprove: string) => {
+    try {
+      const s = await axios.get("/api/delete-approve", {
+        data: { beneficiary: userToApprove, endorser: address },
+      });
+    } catch (e) {
+      toast({
+        title: "Error approve",
+        description: "Little issue with the approve, sorry.",
+      });
+    }
+  };
+
   const isMyProfile = address === params.address;
 
   const borrows = [
@@ -223,6 +250,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                       <Button
                         variant={"secondary"}
                         className="w-32 bg-green-500 hover:bg-green-500 hover:opacity-80 text-white"
+                        onClick={() => approve()}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

@@ -80,3 +80,44 @@ export const getDataFromSupabase = async ({
     throw error;
   }
 };
+
+export const deleteRowsFromSupabase = async ({
+  supabaseUrl,
+  supabaseKey,
+  supabaseTable,
+  filter1,
+  filter2,
+}: {
+  supabaseUrl?: string;
+  supabaseKey?: string;
+  supabaseTable: string;
+  filter1?: {
+    column: string;
+    operator: string;
+    value: string;
+  };
+  filter2?: {
+    column: string;
+    operator: string;
+    value: string;
+  };
+}): Promise<any> => {
+  try {
+    supabaseUrl = supabaseUrl || DEFAULT_SUPABASE_URL;
+    supabaseKey = supabaseKey || DEFAULT_SUPABASE_KEY;
+    const supabase = createSupabaseClient({ supabaseUrl, supabaseKey });
+    // delete all rows where id > 0
+    const { data: response, error } = await supabase
+      .from(supabaseTable)
+      .delete()
+      .delete()
+      .eq(filter1?.column, filter1?.value)
+      .eq(filter2?.column, filter2?.value);
+
+    if (error) throw error;
+    return response;
+  } catch (error) {
+    console.error({ error });
+    throw error;
+  }
+};
