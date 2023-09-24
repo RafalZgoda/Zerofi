@@ -12,6 +12,7 @@ import { useAccount } from "wagmi";
 export default function LoansPage() {
   const { address } = useAccount();
   const [score, setScore] = useState<any>();
+  const [isLoanDisplayed, setIsLoanDisplayed] = useState(false);
   const { toast } = useToast();
 
   const router = useRouter();
@@ -60,8 +61,8 @@ export default function LoansPage() {
           </TabsList>
           <TabsContent value="borrow">
             <div className="m-auto h-96 bg-bg rounded-3xl flex items-center">
-              <BorrowWidget score={score} />
-              <MyBorrows />
+              <BorrowWidget score={score} setIsLoanDisplayed={setIsLoanDisplayed} />
+              <MyBorrows isLoanDisplayed={isLoanDisplayed} />
             </div>
           </TabsContent>
           <TabsContent value="loan">

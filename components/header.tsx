@@ -43,7 +43,7 @@ export default function Header() {
         </Button>
       </div>
 
-      <Button>
+      <Button variant="link">
         <div className="test">
           <ConnectButton />
         </div>
