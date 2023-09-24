@@ -36,6 +36,7 @@ import { getUserOnChainData } from "@/lib/next-id";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -43,6 +44,7 @@ export default function Profile({ params }: { params: { address: string } }) {
   const [profile, setProfile] = useState<any>();
   const [score, setScore] = useState<any>();
   const { toast } = useToast();
+  const router = useRouter();
   const { address } = useAccount();
 
   const getUser = async (address: string) => {
@@ -150,7 +152,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                   )}
                 </h1>
                 <p className="m-0 p-0 flex items-center text-sm">
-                  {true && (
+                  {address === "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C" && (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
@@ -351,15 +353,15 @@ export default function Profile({ params }: { params: { address: string } }) {
                 <div className="flex flex-col gap-5">
                   {trusters.map((truster, index) => {
                     return (
-                      <a
-                        href={`/profile/${truster.address}`}
-                        target="_blank"
-                        rel="noreferrer"
+                      <div
+                        onClick={() =>
+                          router.push(`/profile/${truster.address}`)
+                        }
                         key={index}
-                        className="bg-bg rounded-full p-3 px-5 text-white h-10 flex items-center "
+                        className="bg-bg cursor-pointer rounded-full p-3 px-5 text-white h-10 flex items-center "
                       >
                         <h1>{truster.name}</h1>
-                      </a>
+                      </div>
                     );
                   })}
                 </div>
