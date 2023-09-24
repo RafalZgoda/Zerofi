@@ -13,7 +13,7 @@ export const getProvider = () => {
   return provider;
 };
 
-export const getBalanceETH = async (address?: string): Promise<number> => {
+export const getBalanceETH = async (address: string): Promise<number> => {
   const provider = getProvider();
   const balanceInWei = await provider.getBalance(address);
   // console.log({ balance: balanceInWei.toString() });
