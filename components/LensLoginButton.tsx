@@ -14,12 +14,11 @@ import { useAccount } from "wagmi";
 import { useEffect } from "react";
 import _ from "lodash";
 import { Button } from "./ui/button";
+import React from "react";
 export function LensLoginButton({
   setLensFeed,
   setLensFollowersAddresses,
-}: // activeLensProfile,
-// setActiveLensProfile,
-{
+}: {
   setLensFeed: (feed: FeedItem[]) => void;
   setLensFollowersAddresses: (addresses: string[]) => void;
   // activeLensProfile: ProfileOwnedByMe;
