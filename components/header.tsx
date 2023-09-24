@@ -8,19 +8,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Address from "./ui/address";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useToast } from "./ui/use-toast";
 import Logo from "./logo";
+import { useAccount } from "wagmi";
 export default function Header() {
-  // const { ready, authenticated, login, logout, user } = usePrivy();
   const router = useRouter();
+  const { address } = useAccount();
 
   return (
-    <div className="flex p-3 px-32 text-white w-full justify-between">
+    <div className="flex p-3 px-32 text-white w-full justify-between items-center">
       <Link
         href="/"
         className="flex items-center space-x-2 font-bold w-44 text-xl"
@@ -34,46 +35,25 @@ export default function Header() {
         <Button variant={"ghost"} onClick={() => router.push("/loans")}>
           Loan
         </Button>
+        <Button
+          variant={"ghost"}
+          onClick={() => router.push("/profile/" + address)}
+        >
+          Profile
+        </Button>
       </div>
-      <div className="w-48 flex items-center">
-        {/* {!ready && <Loader2 className="animate-spin" />} */}
-        {/* {ready && !authenticated && ( */}
-          {/* <Button onClick={login}>Connect Wallet</Button> */}
-        {/* )} */}
-        {/* {ready && authenticated && ( */}
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger className="outline-none">
-              <Button>
-                {/* <Address address={user?.wallet?.address || ""} />{" "} */}
-                <ChevronDown className="w-5 ml-2" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white/20 text-white p-3 text-sm">
-              {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem> */}
-              {/* <DropdownMenuItem
-                onClick={() => router.push("/profile/" + user?.wallet?.address)}
-                className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
-              >
-                Profile
-              </DropdownMenuItem> */}
-              <DropdownMenuSeparator className="my-2" />
-              {/* <DropdownMenuItem
-                onClick={logout}
-                className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
-              > */}
-                Logout
-              {/* </DropdownMenuItem> */}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        {/* )} */}
-      </div>
-      <ConnectButton/>
+      {/* {!ready && <Loader2 className="animate-spin" />} */}
+      {/* {ready && !authenticated && ( */}
+      {/* <Button onClick={login}>Connect Wallet</Button> */}
+      {/* )} */}
+      {/* {ready && authenticated && ( */}
+
+      {/* )} */}
+      <Button>
+        <div className="test">
+          <ConnectButton />
+        </div>
+      </Button>
     </div>
   );
 }
