@@ -48,7 +48,7 @@ export default function MyBorrows() {
               <DialogTrigger className="w-full mb-3">
                 <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
                   <div>
-                    <h1 className="text-xl font-bold">{borrow.amount} ETH</h1>
+                    <h1 className="text-xl font-bold">{borrow.amount} USDC</h1>
                     <p className="text-xs text-left text-white/80">
                       {borrow.duration} Days
                     </p>
@@ -78,7 +78,7 @@ export default function MyBorrows() {
                       className="mx-auto w-5/12 text-black"
                       onClick={() => repay(borrow.loanId)}
                     >
-                      Pay {borrow.owed} ETH
+                      Pay {borrow.owed} USDC
                     </Button>
                   </DialogDescription>
                 </DialogHeader>

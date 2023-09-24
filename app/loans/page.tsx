@@ -3,26 +3,48 @@ import BorrowWidget from "@/components/borrow/borrow-widget";
 import MyBorrows from "@/components/borrow/my-borrows";
 import Pools from "@/components/lend/pools";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 export default function LoansPage() {
-  const max = 5;
+  const { address } = useAccount();
+  const [score, setScore] = useState<any>();
+  const { toast } = useToast();
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (ready && !authenticated) {
-  //     router.push("/");
-  //   }
-  // }, [ready, authenticated, router]);
+  const getScore = async (address: string) => {
+    try {
+      const s = await axios.get("/api/creditScore?address=" + address);
+      if (s.data.message === "0")
+        toast({
+          title: "Score too low",
+          description:
+            "Score too low, this user needs to improve his social reputation or on chain footprint.",
+        });
+      setScore(s.data.message);
+    } catch (e) {
+      toast({
+        title: "Score too low",
+        description:
+          "Score too low, this user needs to improve his social reputation or on chain footprint.",
+      });
+      setScore("0");
+    }
+  };
 
+  useEffect(() => {
+    getScore(address!);
+  }, [address]);
   return (
     <>
       {/* {ready && authenticated && ( */}
       <div className="w-full flex justify-center items-center flex-col text-white gap-10 mt-10">
         <h1 className="text-5xl font-bold animate-pulse">
-          You can borrow up to {max} ETH ✨
+          You can borrow up to {score} USDC ✨
         </h1>
         <Tabs
           defaultValue="borrow"
@@ -38,7 +60,7 @@ export default function LoansPage() {
           </TabsList>
           <TabsContent value="borrow">
             <div className="m-auto h-96 bg-bg rounded-3xl flex items-center">
-              <BorrowWidget />
+              <BorrowWidget score={score} />
               <MyBorrows />
             </div>
           </TabsContent>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useAccount } from "wagmi";
@@ -24,12 +24,13 @@ import {
 } from "../ui/dialog";
 import { RocketIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-export default function BorrowWidget() {
+import { useToast } from "../ui/use-toast";
+import axios from "axios";
+export default function BorrowWidget({ score }: { score: string }) {
   const INTEREST_RATE = {
     percentage: 20,
     scNumber: BigInt(6341958396752918000),
   };
-  const max = 5;
   const { address } = useAccount();
   const [duration, setDuration] = useState<string | undefined>();
   const [amount, setAmount] = useState<string | undefined>("0");
@@ -54,7 +55,7 @@ export default function BorrowWidget() {
     const signer = await getEthersSigner();
     if (!signer || !address) return;
     const contract = new Contract(socialPool, socialABI, signer);
-    const authorizedAmount = Math.min(max, Number(amount));
+    const authorizedAmount = Math.min(parseFloat(score), Number(amount));
     const amountInWei = BigInt(Number(authorizedAmount) * 10 ** 18);
     const nowInSec = Math.floor(Date.now() / 1000);
     const durationInSec = Number(duration) * 24 * 60 * 60;
@@ -75,7 +76,7 @@ export default function BorrowWidget() {
   }
 
   async function requestLoan() {
-    console.log('requestLoan')
+    console.log("requestLoan");
     // const signer = await getEthersSigner();
     // if (!signer || !address) return;
     // const contract = new Contract(p2pLending, p2pABI, signer);
@@ -102,7 +103,7 @@ export default function BorrowWidget() {
           onChange={(e) => setAmount(e.target.value)}
         />
         <p className="text-xs text-right text-gray-600 pr-3">
-          Max {max} instant ETH
+          Max {score} instant USDC
         </p>
       </div>
       <Select value={duration} onValueChange={(value) => setDuration(value)}>
@@ -166,23 +167,28 @@ export default function BorrowWidget() {
                   onClick={() => borrow()}
                 >
                   <p>
-                    Borrow <span className="font-bold">{max} USDC</span> from
-                    social pool
-                  </p>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="mx-auto w-5/12 text-black p-8"
-                  onClick={() => requestLoan()}
-                >
-                  <p>
-                    Ask{" "}
+                    Borrow{" "}
                     <span className="font-bold">
-                      {parseFloat(amount || "0") - max} USDC
+                      {Math.min(parseFloat(score), Number(amount))} USDC
                     </span>{" "}
-                    to your network
+                    from social pool
                   </p>
                 </Button>
+                {parseFloat(amount) - parseFloat(score) > 0 && (
+                  <Button
+                    variant="outline"
+                    className="mx-auto w-5/12 text-black p-8"
+                    onClick={() => requestLoan()}
+                  >
+                    <p>
+                      Ask{" "}
+                      <span className="font-bold">
+                        {parseFloat(amount || "0") - parseFloat(score)} USDC
+                      </span>{" "}
+                      to your network
+                    </p>
+                  </Button>
+                )}
               </div>
             </DialogDescription>
           </DialogHeader>

@@ -84,6 +84,16 @@ export default function Profile({ params }: { params: { address: string } }) {
     },
   ];
 
+  const requestedBorrows = [
+    {
+      amount: 3,
+      duration: 7,
+      interest: 25,
+      daysLeft: 2,
+      owed: 3.75,
+    },
+  ];
+
   const previousBorrows = [
     {
       amount: 3,
@@ -105,8 +115,8 @@ export default function Profile({ params }: { params: { address: string } }) {
 
   const trusters = [
     {
-      name: "hello.eth",
-      address: "0x6fac2bcca1f5397bf2bc96aa4ae8f35728882761",
+      name: "madderstone.eth",
+      address: "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C",
     },
     {
       name: "hello_there_bro.eth",
@@ -408,16 +418,57 @@ export default function Profile({ params }: { params: { address: string } }) {
       </div>
 
       <div className="w-5/12 text-white">
+        {requestedBorrows.length > 0 && (
+          <div className="">
+            <p className="text-center mb-3 text-md ">Requested loans</p>
+            {requestedBorrows.map((borrow, index) => (
+              <Dialog key={index}>
+                <DialogTrigger className="w-full mb-3">
+                  <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
+                    <div>
+                      <h1 className="text-xl font-bold">
+                        {borrow.amount}/5 USDC
+                      </h1>
+                      <p className="text-xs text-left text-white/80">
+                        {borrow.duration} Days
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <h1 className="text-3xl font-bold">{borrow.interest}%</h1>
+                      <p>{borrow.daysLeft} days left</p>
+                    </div>
+                  </div>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="text-center">
+                      Help this borrower reach his loan goal
+                    </DialogTitle>
+                    <DialogDescription className="flex justify-center pt-5 gap-5">
+                      <Input
+                        placeholder="Amount"
+                        className="w-5/12 bg-black/5"
+                      />
+                      <Button variant="outline" className="w-3/12 text-black">
+                        Help
+                      </Button>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
+        )}
         {borrows.length > 0 && (
           <div className="">
-            <p className="text-center mb-3 text-md ">Active loans</p>
+            <p className="text-center mb-3 text-md mt-5 ">Ongoing loans</p>
             {borrows.map((borrow, index) => (
               <Dialog key={index}>
                 <DialogTrigger className="w-full mb-3">
                   <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
                     <div>
                       <h1 className="text-xl font-bold">
-                        {borrow.amount}/5 ETH
+                        {borrow.amount} USDC
                       </h1>
                       <p className="text-xs text-left text-white/80">
                         {borrow.duration} Days
@@ -465,7 +516,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                 className="opacity-30 glass p-3 px-5 flex items-center justify-between mb-3"
               >
                 <div>
-                  <h1 className="text-xl font-bold">{borrow.amount}/5 ETH</h1>
+                  <h1 className="text-xl font-bold">{borrow.amount} USDC</h1>
                   <p className="text-xs text-left text-white/80">
                     {borrow.duration} Days
                   </p>

@@ -65,12 +65,12 @@ export default function Pools() {
                 </div>
 
                 <div className="w-32 flex flex-col justify-center items-center">
-                  <h1>{pool.tvl} ETH</h1>
+                  <h1>{pool.tvl} USDC</h1>
                   <p className="text-xs">TVL</p>
                 </div>
 
                 <div className="w-48 flex flex-col justify-center items-center">
-                  <h1>{pool.userAmount} ETH</h1>
+                  <h1>{pool.userAmount} USDC</h1>
                   <p className="text-xs">Your Share</p>
                 </div>
               </AccordionTrigger>
