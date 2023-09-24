@@ -1,12 +1,37 @@
 "use client";
 
+import '@rainbow-me/rainbowkit/styles.css';
+
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
 import Header from "@/components/header";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
+import { configureChains, mainnet, createConfig, WagmiConfig } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet],
+  [publicProvider()],
+)
+
+const { connectors } = getDefaultWallets({
+  appName: 'Zero Fi',
+  projectId: 'YOUR_PROJECT_ID',
+  chains
+});
+
+const config = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+  webSocketPublicClient,
+})
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,32 +40,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { ready, authenticated, user } = usePrivy();
   const router = useRouter();
 
-  useEffect(() => {
-    if (ready && !authenticated) {
-      router.push("/");
-    }
-  }, [ready, authenticated, router, user]);
+  // useEffect(() => {
+  //   if (ready && !authenticated) {
+  //     router.push("/");
+  //   }
+  // }, [ready, authenticated, router, user]);
 
   return (
     <html lang="en">
+      <WagmiConfig config={config}>
+      <RainbowKitProvider chains={chains}>
       <body className={inter.className}>
-        <PrivyProvider
-          appId={"clmw6e8nn00agjz0fq7vpdauj"}
-          onSuccess={(user) => {
-            router.push("/");
-          }}
-          config={{
-            loginMethods: ["wallet"],
-            appearance: {
-              theme: "light",
-              accentColor: "#676FFF",
-              logo: "/logo-dark.png",
-            },
-          }}
-        >
           <Header />
           {children}
           <img
@@ -48,9 +60,10 @@ export default function RootLayout({
             alt="bg"
             className="w-full h-full absolute top-0 opacity-25 z-[-1] object-cover"
           />
-        </PrivyProvider>
         <Toaster />
       </body>
+      </RainbowKitProvider>
+      </WagmiConfig>
     </html>
   );
 }

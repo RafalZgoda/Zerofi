@@ -2,35 +2,30 @@
 import { LensLoginButton } from "@/components/LensLoginButton";
 import {
   LensProvider,
-  Profile,
   FeedItem,
   ProfilePictureSet,
   ProfileOwnedByMe,
 } from "@lens-protocol/react-web";
-import { useLensConfig } from "@/lib/lens-config";
+import { lensConfig } from "@/lib/lens-config";
 import { useState, useEffect } from "react";
 import { LensPost } from "@/components/LensPost";
-import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
+import { useAccount } from "wagmi";
 export default function Social() {
-  const lensConfig = useLensConfig();
-  const [activeLensProfile, setActiveLensProfile] = useState(
-    null as ProfileOwnedByMe | null
-  );
+  //   const [activeLensProfile, setActiveLensProfile] =
+  //     useState<ProfileOwnedByMe>();
+
   const [lensFeed, setLensFeed] = useState([] as FeedItem[]);
   const [lensFollowersAddresses, setLensFollowersAddresses] = useState([""]);
-
-  const { ready, authenticated } = usePrivy();
+  const { address, isConnected } = useAccount();
   const router = useRouter();
 
   useEffect(() => {
-    if (ready && !authenticated) {
+    if (!isConnected) {
       router.push("/");
     }
-  }, [ready, authenticated, router]);
-
-  if (!lensConfig) return;
+  }, [isConnected, router]);
 
   const testLens = [
     {
@@ -118,19 +113,17 @@ export default function Social() {
                 </div>
               </div>
             ))}
-            {lensFeed.length === 0 && (
-              <p className="text-center text-white/90 text-sm">
-                {activeLensProfile ? "No posts yet" : "Please connect to Lens"}
-                {!activeLensProfile && (
-                  <LensLoginButton
-                    setActiveLensProfile={setActiveLensProfile}
-                    activeLensProfile={activeLensProfile}
-                    setLensFeed={setLensFeed}
-                    setLensFollowersAddresses={setLensFollowersAddresses}
-                  />
-                )}
-              </p>
-            )}
+            <p className="text-center text-white/90 text-sm">
+              {/* {activeLensProfile ? "No posts yet" : "Please connect to Lens"} */}
+              {/* {!activeLensProfile && ( */}
+              <LensLoginButton
+                setLensFeed={setLensFeed}
+                setLensFollowersAddresses={setLensFollowersAddresses}
+                //   activeLensProfile={activeLensProfile}
+                //   setActiveLensProfile={setActiveLensProfile}
+              />
+              {/* )} */}
+            </p>
           </div>
         </main>
       </LensProvider>

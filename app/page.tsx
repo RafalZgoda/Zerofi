@@ -1,19 +1,17 @@
 "use client";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { usePrivy } from "@privy-io/react-auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAccount } from 'wagmi'
 
 export default function Home() {
-  const { ready, authenticated, login } = usePrivy();
   const router = useRouter();
+  const { isConnected } = useAccount();
+  const ready = isConnected;
 
   const getStarted = () => {
-    if (ready && !authenticated) {
-      login();
-    }
-    if (ready && authenticated) {
+    if (ready) {
       router.push("/loans");
     }
   };

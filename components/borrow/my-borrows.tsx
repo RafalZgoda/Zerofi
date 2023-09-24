@@ -1,3 +1,5 @@
+import { RocketIcon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -43,11 +45,22 @@ export default function MyBorrows() {
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="text-center">
-                    You still owe {borrow.owed} ETH
+                    Pay back your loan
                   </DialogTitle>
-                  <DialogDescription className="flex justify-center pt-5">
-                    <Button variant="outline" className="w-5/12 text-black">
-                      Pay
+                  <DialogDescription className="flex justify-center flex-col">
+                    <Alert className="border-none">
+                      <RocketIcon className="h-4 w-4" />
+                      <AlertTitle>Heads up!</AlertTitle>
+                      <AlertDescription>
+                        You have {borrow.daysLeft} days left to pay back your
+                        loan.
+                      </AlertDescription>
+                    </Alert>
+                    <Button
+                      variant="outline"
+                      className="mx-auto w-5/12 text-black"
+                    >
+                      Pay {borrow.owed} ETH
                     </Button>
                   </DialogDescription>
                 </DialogHeader>

@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { usePrivy } from "@privy-io/react-auth";
 import { ChevronDown, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
@@ -9,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Address from "./ui/address";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import Image from "next/image";
 import { useToast } from "./ui/use-toast";
 import Logo from "./logo";
 export default function Header() {
-  const { ready, authenticated, login, logout, user } = usePrivy();
+  // const { ready, authenticated, login, logout, user } = usePrivy();
   const router = useRouter();
 
   return (
@@ -36,15 +36,16 @@ export default function Header() {
         </Button>
       </div>
       <div className="w-48 flex items-center">
-        {!ready && <Loader2 className="animate-spin" />}
-        {ready && !authenticated && (
-          <Button onClick={login}>Connect Wallet</Button>
-        )}
-        {ready && authenticated && (
+        {/* {!ready && <Loader2 className="animate-spin" />} */}
+        {/* {ready && !authenticated && ( */}
+          {/* <Button onClick={login}>Connect Wallet</Button> */}
+        {/* )} */}
+        {/* {ready && authenticated && ( */}
+          
           <DropdownMenu>
             <DropdownMenuTrigger className="outline-none">
               <Button>
-                <Address address={user?.wallet?.address || ""} />{" "}
+                {/* <Address address={user?.wallet?.address || ""} />{" "} */}
                 <ChevronDown className="w-5 ml-2" />
               </Button>
             </DropdownMenuTrigger>
@@ -55,23 +56,24 @@ export default function Header() {
             <DropdownMenuItem>Billing</DropdownMenuItem>
             <DropdownMenuItem>Team</DropdownMenuItem>
             <DropdownMenuItem>Subscription</DropdownMenuItem> */}
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 onClick={() => router.push("/profile/" + user?.wallet?.address)}
                 className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
               >
                 Profile
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuSeparator className="my-2" />
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 onClick={logout}
                 className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
-              >
+              > */}
                 Logout
-              </DropdownMenuItem>
+              {/* </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
-        )}
+        {/* )} */}
       </div>
+      <ConnectButton/>
     </div>
   );
 }
