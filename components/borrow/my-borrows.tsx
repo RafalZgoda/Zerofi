@@ -43,10 +43,10 @@ export default function MyBorrows() {
   }
   const getBorrows = async () => {
     const l = await axios.post("/api/loans", {
-      address: "0x674dc72D0738D2f905aE9F3ef17C0384c8bd28d2",
+      address: address,
     });
     setLoans(l.data.message);
-    console.log(l.data.message);
+    console.log({ loans: l.data.message });
   };
 
   useEffect(() => {

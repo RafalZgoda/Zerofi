@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { deleteRowsFromSupabase } from "./supabase";
+import { deleteRowsFromSupabase, newDeleteRowsFromSupabase } from "./supabase";
 type ResponseData = {
   message: string;
 };
@@ -16,18 +16,11 @@ export default async function handler(
   beneficiary = beneficiary?.toLowerCase();
   console.log({ endorser, beneficiary, req: req.body });
   // console.log({ req });
-  const store = await deleteRowsFromSupabase({
+  const store = await newDeleteRowsFromSupabase({
     supabaseTable: "approves",
-    filter1: {
-      column: "endorser",
-      operator: "eq",
-      value: endorser,
-    },
-    filter2: {
-      column: "beneficiary",
-      operator: "eq",
-      value: beneficiary,
-    },
+    endorser: endorser,
+    beneficiary: beneficiary,
+
   });
   console.log({ store });
 

@@ -73,32 +73,19 @@ export default function Profile({ params }: { params: { address: string } }) {
     }
   };
 
-  const approve = async () => {
-    try {
-      const s = await axios.post("/api/approve", {
-        beneficiary: params.address,
-        endorser: address,
-      });
-    } catch (e) {
-      toast({
-        title: "Error approve",
-        description: "Little issue with the approve, sorry.",
-      });
-    }
-  };
-
-  const deleteApprove = async (userToApprove: string) => {
-    try {
-      const s = await axios.get("/api/delete-approve", {
-        data: { beneficiary: userToApprove, endorser: address },
-      });
-    } catch (e) {
-      toast({
-        title: "Error approve",
-        description: "Little issue with the approve, sorry.",
-      });
-    }
-  };
+  // const approve = async () => {
+  //   try {
+  //     const s = await axios.post("/api/approve", {
+  //       beneficiary: params.address,
+  //       endorser: address,
+  //     });
+  //   } catch (e) {
+  //     toast({
+  //       title: "Error approve",
+  //       description: "Little issue with the approve, sorry.",
+  //     });
+  //   }
+  // };
 
   const isMyProfile = address === params.address;
 
@@ -173,6 +160,24 @@ export default function Profile({ params }: { params: { address: string } }) {
     await axios.post("/api/approve", { endorser: address, beneficiary });
   };
 
+  const deleteApprove = async (beneficiary: string) => {
+    try {
+      console.log({
+        beneficiary,
+        endorser: address,
+      });
+      const s = await axios.post("/api/delete-approve", {
+        beneficiary,
+        endorser: address,
+      });
+    } catch (e) {
+      toast({
+        title: "Error approve",
+        description: "Little issue with the approve, sorry.",
+      });
+    }
+  };
+
   return (
     <div className="flex w-10/12 mx-auto gap-5 mt-5">
       <div className="p-10 bg-bg w-7/12 rounded-3xl">
@@ -206,13 +211,15 @@ export default function Profile({ params }: { params: { address: string } }) {
                   )}
                 </h1>
                 <p className="m-0 p-0 flex items-center text-sm">
-                  {address === "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C" && (
+                  <p className="mr-8">{profile?.identity}</p>
+                  {params.address.toLowerCase() ===
+                    "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C".toLowerCase() && (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <Image
                             src={"/wld.png"}
-                            className="w-5 mr-1 object-contain"
+                            className=" mr-1 object-contain"
                             width={64}
                             height={64}
                             alt={profile.source}
@@ -224,7 +231,6 @@ export default function Profile({ params }: { params: { address: string } }) {
                       </Tooltip>
                     </TooltipProvider>
                   )}
-                  {profile?.identity}
                 </p>
               </div>
               <div className="text-center">
@@ -250,7 +256,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                       <Button
                         variant={"secondary"}
                         className="w-32 bg-green-500 hover:bg-green-500 hover:opacity-80 text-white"
-                        onClick={() => approve()}
+                        // onClick={() => approve(params.address)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -378,7 +384,10 @@ export default function Profile({ params }: { params: { address: string } }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-black">
+                  <AlertDialogAction
+                    className="bg-black"
+                    onClick={() => deleteApprove(params.address)}
+                  >
                     Continue
                   </AlertDialogAction>
                 </AlertDialogFooter>

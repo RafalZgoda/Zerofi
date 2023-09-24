@@ -70,17 +70,18 @@ export const getLoanStatus = async (loanId) => {
 
 const getLoansCreditLine = async (address: string): Promise<number> => {
   const loans = await getLoansList(address);
-  console.log({loans})
+  console.log({ loans });
   if (loans.length === 0) return 0;
 
   const impactOnCreditLine = loans.reduce((acc, loan) => {
     console.log({ loan });
-    if (loan.status === "DEFAULT") return acc -parseFloat(loan.terms.amount); // on perd le montant du loan dans son credit score
+    if (loan.status === "DEFAULT") return acc - parseFloat(loan.terms.amount); // on perd le montant du loan dans son credit score
     if (loan.status === "REPAID")
       return (
         acc +
-        ((parseFloat(loan.terms.amount) * parseFloat(loan.terms.interestRate)) / 100) *
-        parseFloat(loan.terms.duration)
+        ((parseFloat(loan.terms.amount) * parseFloat(loan.terms.interestRate)) /
+          100) *
+          parseFloat(loan.terms.duration)
       ); // on gagne les interets dans son credit score
     return acc;
   }, 0);
@@ -149,6 +150,18 @@ export const getCreditLineWithHistoryAndApproves = async (address: string) => {
   const creditLine = creditLineBase + creditLineLoans + creditLineApproves;
   console.log({ creditLine });
   return creditLine;
+};
+
+export const newGetCreditLineOnApproves = async (
+  address: string
+): Promise<number> => {
+  try {
+    const approves = await getAllApprovesOfUser(address);
+    return approves.length;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
 };
 
 // getCreditLineWithHistoryAndApproves(
