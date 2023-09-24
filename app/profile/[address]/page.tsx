@@ -105,8 +105,8 @@ export default function Profile({ params }: { params: { address: string } }) {
 
   const trusters = [
     {
-      name: "hello.eth",
-      address: "0x6fac2bcca1f5397bf2bc96aa4ae8f35728882761",
+      name: "madderstone.eth",
+      address: "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C",
     },
     {
       name: "hello_there_bro.eth",
