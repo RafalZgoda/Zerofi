@@ -1,9 +1,14 @@
+Goerli
+token - https://goerli.etherscan.io/address/0xdB6ffA2494192BbC3c664f42a423F6542c5c99ae
+p2p - https://goerli.etherscan.io/address/0xd877dfb1a74972C41673D5F72d232C46386Ef5B4#code
+pool - https://goerli.etherscan.io/address/0xf8986B3DdA96D46375a08d2a6f0F1893ce937360#code
+
 Arbitrum One 
-token https://arbiscan.io/address/0x873b6390626ce29976372779ec2722e0117ec375
-p2p https://arbiscan.io/address/0xa7fc58e0594c2e8eceffadce2b3d606baf782520#code
-pool https://arbiscan.io/address/0xf046e96e8ceac0122b006fc5244d60ad84385a75#code
+token https://arbiscan.io/address/0x650ffE307F5cc48e41DF8063D94538353f7C70a8
+p2p https://arbiscan.io/address/0xb48e018d53b24c3a36f5d5e7725b70667db83b3d#code
+pool https://arbiscan.io/address/0xe239bfb50eee1a5043e94f07d2787b87470e9d73#code
 
 Scroll
-token 0x47396Defa70fEEBE4A1332a97Ca5050633e76580
-p2p 0x7721D46Be104156D89d95534f7351549627Ad050
-pool 0xEaAE8cDF5406d052c36E580D681ACc053f44589f
+token 0x57FA0ba64fdBD3961544CbCC3eF3a9CEC0F37654
+p2p 0x9D87c33418Cb365eC3a2149af2b86f538d443b2D
+pool 0x4f01A3e6E4b22D60c39d3030e985dD562782F62B
