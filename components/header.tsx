@@ -40,6 +40,7 @@ export default function Header() {
           {/* <Button onClick={login}>Connect Wallet</Button> */}
         {/* )} */}
         {/* {ready && authenticated && ( */}
+          
           <DropdownMenu>
             <DropdownMenuTrigger className="outline-none">
               <Button>
