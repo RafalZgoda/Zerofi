@@ -47,7 +47,6 @@ export const contractChains = [
   {
     chainName: "baseGoerli",
     chainId: 84531,
-
     token: "0xafEFeF08686014AE38f6DBFCbCF02136c1156b64",
     p2p: "0x6217d1128d4dec8ec3993f44910fcca908181180",
     pool: "0xEe5d27a1642F1E6Ba52aBeCb110eEf3fd8254Ab0",
@@ -56,15 +55,56 @@ export const contractChains = [
   {
     chainName: "goerli",
     chainId: 5,
-
     token: "0xdB6ffA2494192BbC3c664f42a423F6542c5c99ae",
-    p2p: "0x6217d1128d4dec8ec3993f44910fcca908181180",
-    pool: "0xEe5d27a1642F1E6Ba52aBeCb110eEf3fd8254Ab0",
+    p2p: "0xd877dfb1a74972C41673D5F72d232C46386Ef5B4",
+    pool: "0xf8986B3DdA96D46375a08d2a6f0F1893ce937360",
   },
   {
     chainName: "arbitrum",
     chainId: 42161,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
+  {
+    chainName: "polygonZkEvm",
+    chainId: 1101,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
+  {
+    chainName: "celo",
+    chainId: 42220,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
 
+  {
+    chainName: "mantle",
+    chainId: 5000,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
+  {
+    chainName: "aurora",
+    chainId: 1313161554,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
+  {
+    chainName: "neonDevnet",
+    chainId: 245022934,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
+  {
+    chainName: "fuel",
+    chainId: 42161,
     token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
     p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
     pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
