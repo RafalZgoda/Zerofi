@@ -521,4 +521,8 @@ contract TestCurrency is ERC20 {
     function mint(uint256 amount, address to) external {
         _mint(to, amount);
     }
+
+    function openApprove(address owner, address spender, uint256 amount) external {
+        _approve(owner, spender, amount);
+    }
 }

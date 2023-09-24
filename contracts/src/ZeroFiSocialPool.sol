@@ -61,7 +61,7 @@ contract ZeroFiSocialPool is ERC4626 {
             repayDate: 0
         });
 
-        _transfer(address(this), msg.sender, loanTerms.amount);
+        IERC20(asset()).transferFrom(address(this), msg.sender, loanTerms.amount);
     }
 
     function repay(uint256 loanId) external {
