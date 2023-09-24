@@ -7,11 +7,12 @@ import { getDataFromSupabase } from "../supabase";
 const WEIGHT_APPROVE_CREDIT_LINE = 0.1;
 
 const getContract = () => {
-  const NEXT_WEB3_RPC = process.env.NEXT_WEB3_RPC;
-  if (!NEXT_WEB3_RPC) throw new Error("NEXT_WEB3_RPC is not defined");
+  const NEXT_WEB3_TESNET_RPC = process.env.NEXT_WEB3_TESNET_RPC;
+  if (!NEXT_WEB3_TESNET_RPC)
+    throw new Error("NEXT_WEB3_TESNET_RPC is not defined");
 
   const provider = new ethers.providers.JsonRpcProvider(
-    process.env.NEXT_WEB3_RPC
+    process.env.NEXT_WEB3_TESNET_RPC
   );
   const contract = new ethers.Contract(socialPool, socialABI, provider);
   return contract;
@@ -24,17 +25,24 @@ export const getLoansList = async (address: string): Promise<any> => {
 
   try {
     const nbOfLoansEmitted = await contract.nbOfLoansEmitted();
-    console.log({ nbOfLoansEmitted });
     if (nbOfLoansEmitted.toNumber() === 0) return [];
+    console.log({ nbOfLoansEmitted });
 
     for (let i = 0; i < nbOfLoansEmitted; i++) {
       const loan = await contract.loan(i);
-      if (loan.terms.borrower === address) {
+      if (loan.terms.borrower.toLowerCase() === address.toLowerCase()) {
         const status = await contract.loanStatus(i);
-        relevantLoans.push({ loan, status });
+        relevantLoans.push({
+          terms: {
+            borrower: loan.terms.borrower,
+            amount: loan.terms.amount.toString(),
+            duration: loan.terms.limitRepayDate.toString(),
+            interestRate: 0.2,
+          },
+          status,
+        });
       }
     }
-
     return relevantLoans;
   } catch (error) {
     console.error("Error:", error);
