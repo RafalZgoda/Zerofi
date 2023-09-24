@@ -417,7 +417,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                   <div className="cursor-pointer glass p-3 px-5 flex items-center justify-between">
                     <div>
                       <h1 className="text-xl font-bold">
-                        {borrow.amount}/5 ETH
+                        {borrow.amount}/5 USDC
                       </h1>
                       <p className="text-xs text-left text-white/80">
                         {borrow.duration} Days
@@ -465,7 +465,7 @@ export default function Profile({ params }: { params: { address: string } }) {
                 className="opacity-30 glass p-3 px-5 flex items-center justify-between mb-3"
               >
                 <div>
-                  <h1 className="text-xl font-bold">{borrow.amount}/5 ETH</h1>
+                  <h1 className="text-xl font-bold">{borrow.amount}/5 USDC</h1>
                   <p className="text-xs text-left text-white/80">
                     {borrow.duration} Days
                   </p>
