@@ -81,8 +81,8 @@ export const contractChains = [
     pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
   },
   {
-    chainName: "linea",
-    chainId: 59144,
+    chainName: "lineaTestnet",
+    chainId: 59140,
     token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
     p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
     pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
