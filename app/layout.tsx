@@ -1,5 +1,11 @@
 "use client";
 
+import '@rainbow-me/rainbowkit/styles.css';
+
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
 import Header from "@/components/header";
 import "./globals.css";
 import { Inter } from "next/font/google";
@@ -14,8 +20,15 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()],
 )
 
+const { connectors } = getDefaultWallets({
+  appName: 'Zero Fi',
+  projectId: 'YOUR_PROJECT_ID',
+  chains
+});
+
 const config = createConfig({
   autoConnect: true,
+  connectors,
   publicClient,
   webSocketPublicClient,
 })
@@ -38,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <WagmiConfig config={config}>
+      <RainbowKitProvider chains={chains}>
       <body className={inter.className}>
           <Header />
           {children}
@@ -48,6 +62,7 @@ export default function RootLayout({
           />
         <Toaster />
       </body>
+      </RainbowKitProvider>
       </WagmiConfig>
     </html>
   );

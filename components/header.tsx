@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Address from "./ui/address";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
@@ -72,6 +73,7 @@ export default function Header() {
           </DropdownMenu>
         {/* )} */}
       </div>
+      <ConnectButton/>
     </div>
   );
 }
