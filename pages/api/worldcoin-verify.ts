@@ -1,4 +1,4 @@
-import { verifyUser } from "@/libs/supabase";
+import { verifyUser } from "../../lib/supabase/index";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export type VerifyReply = {
@@ -32,13 +32,14 @@ export default function handler(
       if (verifyRes.status == 200) {
         // this is where you should perform backend actions based on the verified credential
         // i.e. setting a user as "verified" in a database
-        console.log(JSON.stringify(req.body))
+        console.log(JSON.stringify(req.body));
         const supabaseResponse = await verifyUser(req.body.address);
         res.status(verifyRes.status).send({ code: "success" });
       } else {
         // return the error code and detail from the World ID /verify endpoint to our frontend
         res.status(verifyRes.status).send({
-          ...wldResponse});
+          ...wldResponse,
+        });
       }
     });
   });
