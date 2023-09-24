@@ -1,6 +1,8 @@
 "use client";
+import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { usePrivy } from "@privy-io/react-auth";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -18,10 +20,11 @@ export default function Home() {
 
   return (
     <main className="flex min-h-[calc(100vh-150px)] flex-col items-center justify-center text-white">
-      <h1 className="font-bold text-6xl mb-3">
+      <Logo width={300} height={300} />
+      <h1 className="font-bold text-6xl my-3 mt-10">
         Instant loans with no collaterals
       </h1>
-      <p className="italic">Your network is your networth</p>
+      <p className="italic mb-3">Your network is your networth</p>
       <div className="flex gap-3">
         <Button onClick={getStarted} variant={"secondary"} className="mt-5">
           Get Started
