@@ -69,9 +69,9 @@ export const contractChains = [
   {
     chainName: "polygonZkEvm",
     chainId: 1101,
-    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
-    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
-    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+    token: "0xed99be7A25fc3A2Ec67679F8483FcCEDB9eEe178",
+    p2p: "0x671fB8f6Fb4f622F7f5235f817841268B299d394",
+    pool: "0xc5126Eb24430d459Cd810B882C3AD286D380B6bD",
   },
   {
     chainName: "celo",
@@ -80,7 +80,13 @@ export const contractChains = [
     p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
     pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
   },
-
+  {
+    chainName: "lineaTestnet",
+    chainId: 59140,
+    token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
+    p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
+    pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
+  },
   {
     chainName: "mantle",
     chainId: 5000,
@@ -96,7 +102,7 @@ export const contractChains = [
     pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
   },
   {
-    chainName: "neonDevnet",
+    chainName: "neonDevnet", // c mort
     chainId: 245022934,
     token: "0x650ffE307F5cc48e41DF8063D94538353f7C70a8",
     p2p: "0xb48e018d53b24c3a36f5d5e7725b70667db83b3d",
@@ -110,25 +116,6 @@ export const contractChains = [
     pool: "0xe239bfb50eee1a5043e94f07d2787b87470e9d73",
   },
 ];
-//   Goerli
-// token - https://goerli.etherscan.io/address/
-// p2p - https://goerli.etherscan.io/address/#code
-// pool - https://goerli.etherscan.io/address/#code
-
-// Arbitrum One
-// token https://arbiscan.io/address/
-// p2p https://arbiscan.io/address/#code
-// pool https://arbiscan.io/address/#code
-
-// Scroll
-// token
-// p2p https://sepolia.scrollscan.dev/address/#code
-// pool https://sepolia.scrollscan.dev/address/#code
-
-// Base
-// token
-// p2p - https://goerli.basescan.org/address/#code
-// pool - https://goerli.basescan.org/address/#code
 
 export const getChainInfo = (chainId: number) => {
   const chainInfo = contractChains.find((chain) => chain.chainId === chainId);
@@ -138,6 +125,15 @@ export const getChainInfo = (chainId: number) => {
   return chainInfo;
 };
 
+const getChainList = () => {
+  const chainList = contractChains.map((chain) => {
+    return {
+      chainId: chain.chainId,
+      chainName: chain.chainName,
+    };
+  });
+  return chainList;
+};
 export const socialPool: Address = "0xf8986B3DdA96D46375a08d2a6f0F1893ce937360";
 export const p2pLending: Address = "0xd877dfb1a74972C41673D5F72d232C46386Ef5B4";
 export const socialABI = [

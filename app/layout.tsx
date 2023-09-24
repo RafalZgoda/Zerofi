@@ -11,10 +11,32 @@ import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
 import { configureChains, mainnet, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import { arbitrum, baseGoerli, goerli, scrollSepolia } from "viem/chains";
+import {
+  arbitrum,
+  baseGoerli,
+  goerli,
+  scrollSepolia,
+  polygonZkEvm,
+  lineaTestnet,
+  celo,
+  neonDevnet,
+  aurora,
+  mantle,
+} from "viem/chains";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [goerli, scrollSepolia, baseGoerli, arbitrum],
+  [
+    goerli,
+    scrollSepolia,
+    baseGoerli,
+    arbitrum,
+    polygonZkEvm,
+    lineaTestnet,
+    celo,
+    neonDevnet,
+    aurora,
+    mantle,
+  ],
   [publicProvider()]
 );
 
