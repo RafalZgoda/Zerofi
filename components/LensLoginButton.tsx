@@ -10,46 +10,46 @@ import {
   usePublications,
   Post,
 } from "@lens-protocol/react-web";
-import { usePrivy } from "@privy-io/react-auth";
+import { useAccount } from 'wagmi'
 import { useEffect } from "react";
 import _ from "lodash";
 import { Button } from "./ui/button";
 export function LensLoginButton({
   setLensFeed,
   setLensFollowersAddresses,
-  activeLensProfile,
-  setActiveLensProfile,
+  // activeLensProfile,
+  // setActiveLensProfile,
 }: {
   setLensFeed: (feed: FeedItem[]) => void;
   setLensFollowersAddresses: (addresses: string[]) => void;
-  activeLensProfile: ProfileOwnedByMe;
-  setActiveLensProfile: (profile: ProfileOwnedByMe) => void;
+  // activeLensProfile: ProfileOwnedByMe;
+  // setActiveLensProfile: (profile: ProfileOwnedByMe) => void;
 }) {
+  const { address, isConnecting } = useAccount()
   const {
     execute: login,
     error: loginError,
     isPending: isLoginPending,
   } = useWalletLogin();
-  const { ready, authenticated, user } = usePrivy();
-  const { data: activeProfile } = useActiveProfile();
+  const { data: activeLensProfile } = useActiveProfile();
   const { data: feedItems } = useFeed({
-    profileId: activeLensProfile?.id || activeProfile?.id,
+    profileId: activeLensProfile?.id,
     limit: 10,
     metadataFilter: {},
   });
   const { data: followers } = useProfileFollowers({
-    profileId: activeLensProfile?.id || activeProfile?.id,
+    profileId: activeLensProfile?.id,
     limit: 10,
   });
   const { data: ownItems } = usePublications({
-    profileId: activeLensProfile?.id || activeProfile?.id,
+    profileId: activeLensProfile?.id,
     limit: 1, // demo purpose
   });
 
-  useEffect(() => {
-    if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
-    setActiveLensProfile(activeProfile);
-  });
+  // useEffect(() => {
+  //   if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
+  //   setActiveLensProfile(activeProfile);
+  // });
 
   useEffect(() => {
     if (!activeLensProfile?.id || !activeLensProfile) return; // Exit if condition is not met
@@ -96,39 +96,36 @@ export function LensLoginButton({
 
   const onLoginClick = async () => {
     console.log("login");
-    const address = user?.wallet?.address;
     if (!address) return;
 
     const loginLensResult = await login({
       address,
     });
-
-    if (loginLensResult) {
-      const profile = loginLensResult.unwrap();
-      const profileOwnedByMe = {
-        ...profile,
-        ownedByMe: true,
-      } as ProfileOwnedByMe;
-      console.log('adding profik');
-      setActiveLensProfile(profileOwnedByMe);
-    }
+    console.log({ loginLensResult });
+    // if (loginLensResult) {
+    //   const profile = loginLensResult.unwrap();
+    //   const profileOwnedByMe = {
+    //     ...profile,
+    //     ownedByMe: true,
+    //   } as ProfileOwnedByMe;
+    //   console.log("adding profik");
+    //   setActiveLensProfile(profileOwnedByMe);
+    // }
   };
 
   return (
     <div>
-      {ready && authenticated && (
-        <div className="text-white font-bold p-5">
-          {loginError && <p>{loginError.toString()}</p>}
-          {activeLensProfile ? (
-            //TODO: check si le profil est pas deja recup
-            <p>Logged in as {activeLensProfile?.handle}</p>
-          ) : (
-            <Button disabled={isLoginPending} onClick={onLoginClick}>
-              Log in with Lens
-            </Button>
-          )}
-        </div>
-      )}
+      <div className="text-white font-bold p-5">
+        {loginError && <p>{loginError.toString()}</p>}
+        {activeLensProfile ? (
+          //TODO: check si le profil est pas deja recup
+          <p>Logged in as {activeLensProfile?.handle}</p>
+        ) : (
+          <Button disabled={isLoginPending} onClick={onLoginClick}>
+            Log in with Lens
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

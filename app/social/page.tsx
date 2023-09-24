@@ -14,8 +14,8 @@ import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
 
 export default function Social() {
-  const [activeLensProfile, setActiveLensProfile] =
-    useState<ProfileOwnedByMe>();
+//   const [activeLensProfile, setActiveLensProfile] =
+//     useState<ProfileOwnedByMe>();
 
   const [lensFeed, setLensFeed] = useState([] as FeedItem[]);
   const [lensFollowersAddresses, setLensFollowersAddresses] = useState([""]);
@@ -116,15 +116,15 @@ export default function Social() {
               </div>
             ))}
             <p className="text-center text-white/90 text-sm">
-              {activeLensProfile ? "No posts yet" : "Please connect to Lens"}
-              {!activeLensProfile && (
+              {/* {activeLensProfile ? "No posts yet" : "Please connect to Lens"} */}
+              {/* {!activeLensProfile && ( */}
                 <LensLoginButton
                   setLensFeed={setLensFeed}
                   setLensFollowersAddresses={setLensFollowersAddresses}
-                  activeLensProfile={activeLensProfile}
-                  setActiveLensProfile={setActiveLensProfile}
+                //   activeLensProfile={activeLensProfile}
+                //   setActiveLensProfile={setActiveLensProfile}
                 />
-              )}
+              {/* )} */}
             </p>
           </div>
         </main>

@@ -15,8 +15,16 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useToast } from "./ui/use-toast";
 import Logo from "./logo";
+import { useAccount, useConnect, useEnsName } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
 export default function Header() {
-  const { ready, authenticated, login, logout, user } = usePrivy();
+  //const { ready, authenticated, login, logout, user } = usePrivy();
+  const { address, isConnected } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
   const router = useRouter();
 
   return (
@@ -35,7 +43,16 @@ export default function Header() {
           Loan
         </Button>
       </div>
-      <div className="w-48 flex items-center">
+
+      <div>
+        {isConnected ? (
+          <div>Connected to {ensName ?? address}</div>
+        ) : (
+          <button onClick={() => connect()}>Connect Wallet</button>
+        )}
+      </div>
+
+      {/* <div className="w-48 flex items-center">
         {!ready && <Loader2 className="animate-spin" />}
         {ready && !authenticated && (
           <Button onClick={login}>Connect Wallet</Button>
@@ -54,7 +71,7 @@ export default function Header() {
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Billing</DropdownMenuItem>
             <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem> */}
+            <DropdownMenuItem>Subscription</DropdownMenuItem> }
               <DropdownMenuItem
                 onClick={() => router.push("/profile/" + user?.wallet?.address)}
                 className="hover:opacity-80 cursor-pointer hover:border-none focus-visible:border-none focus-visible:outline-none"
@@ -71,7 +88,7 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
