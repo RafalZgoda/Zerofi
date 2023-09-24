@@ -3,7 +3,6 @@
 import Header from "@/components/header";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,32 +14,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { ready, authenticated, user } = usePrivy();
   const router = useRouter();
 
-  useEffect(() => {
-    if (ready && !authenticated) {
-      router.push("/");
-    }
-  }, [ready, authenticated, router, user]);
+  // useEffect(() => {
+  //   if (ready && !authenticated) {
+  //     router.push("/");
+  //   }
+  // }, [ready, authenticated, router, user]);
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <PrivyProvider
-          appId={"clmw6e8nn00agjz0fq7vpdauj"}
-          onSuccess={(user) => {
-            router.push("/");
-          }}
-          config={{
-            loginMethods: ["wallet"],
-            appearance: {
-              theme: "light",
-              accentColor: "#676FFF",
-              logo: "/logo-dark.png",
-            },
-          }}
-        >
           <Header />
           {children}
           <img
@@ -48,7 +32,6 @@ export default function RootLayout({
             alt="bg"
             className="w-full h-full absolute top-0 opacity-25 z-[-1] object-cover"
           />
-        </PrivyProvider>
         <Toaster />
       </body>
     </html>

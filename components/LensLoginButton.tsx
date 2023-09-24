@@ -8,7 +8,7 @@ import {
   useProfileFollowers,
   ProfileOwnedByMe,
 } from "@lens-protocol/react-web";
-import { usePrivy } from "@privy-io/react-auth";
+// import { usePrivy } from "@privy-io/react-auth";
 import { useEffect } from "react";
 import { Button } from "./ui/button";
 export function LensLoginButton({
@@ -27,7 +27,7 @@ export function LensLoginButton({
     error: loginError,
     isPending: isLoginPending,
   } = useWalletLogin();
-  const { ready, authenticated, logout, user } = usePrivy();
+  // const { ready, authenticated, logout, user } = usePrivy();
   const { data: activeProfile } = useActiveProfile();
   const { data: feedItems } = useFeed({
     profileId: activeProfile?.id || ("0x78bc" as ProfileId),
@@ -54,7 +54,8 @@ export function LensLoginButton({
   }, [followers, activeProfile?.id, setLensFollowersAddresses, activeProfile]);
 
   const onLoginClick = async () => {
-    const address = user?.wallet?.address;
+    // const address = user?.wallet?.address;
+    const address = "0x78bc";
     if (!address) return;
 
     const loginLensResult = await login({
@@ -73,7 +74,7 @@ export function LensLoginButton({
 
   return (
     <div>
-      {ready && authenticated && (
+      {/* {ready && authenticated && ( */}
         <div className="text-white font-bold p-5">
           {loginError && <p>{loginError.toString()}</p>}
           {activeLensProfile ? (
@@ -85,7 +86,7 @@ export function LensLoginButton({
             </Button>
           )}
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 }

@@ -10,7 +10,6 @@ import {
 import { useLensConfig } from "@/lib/lens-config";
 import { useState, useEffect } from "react";
 import { LensPost } from "@/components/LensPost";
-import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { timeAgo } from "@/lib/utils";
 export default function Social() {
@@ -21,14 +20,13 @@ export default function Social() {
   const [lensFeed, setLensFeed] = useState([] as FeedItem[]);
   const [lensFollowersAddresses, setLensFollowersAddresses] = useState([""]);
 
-  const { ready, authenticated } = usePrivy();
   const router = useRouter();
 
-  useEffect(() => {
-    if (ready && !authenticated) {
-      router.push("/");
-    }
-  }, [ready, authenticated, router]);
+  // useEffect(() => {
+  //   if (ready && !authenticated) {
+  //     router.push("/");
+  //   }
+  // }, [ready, authenticated, router]);
 
   if (!lensConfig) return;
 

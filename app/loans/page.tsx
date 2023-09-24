@@ -3,25 +3,23 @@ import BorrowWidget from "@/components/borrow/borrow-widget";
 import MyBorrows from "@/components/borrow/my-borrows";
 import Pools from "@/components/lend/pools";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LoansPage() {
   const max = 5;
 
-  const { ready, authenticated } = usePrivy();
   const router = useRouter();
 
-  useEffect(() => {
-    if (ready && !authenticated) {
-      router.push("/");
-    }
-  }, [ready, authenticated, router]);
+  // useEffect(() => {
+  //   if (ready && !authenticated) {
+  //     router.push("/");
+  //   }
+  // }, [ready, authenticated, router]);
 
   return (
     <>
-      {ready && authenticated && (
+      {/* {ready && authenticated && ( */}
         <div className="w-full flex justify-center items-center flex-col text-white gap-10 mt-10">
           <h1 className="text-5xl font-bold animate-pulse">
             You can borrow up to {max} ETH ✨
@@ -51,7 +49,7 @@ export default function LoansPage() {
             </TabsContent>
           </Tabs>
         </div>
-      )}
+      {/* )} */}
     </>
   );
 }
