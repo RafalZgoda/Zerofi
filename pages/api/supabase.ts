@@ -47,3 +47,36 @@ export const storeDataToSupabase = async ({
     throw error;
   }
 };
+
+export const getDataFromSupabase = async ({
+  supabaseUrl,
+  supabaseKey,
+  supabaseTable,
+  filter,
+}: {
+  supabaseUrl?: string;
+  supabaseKey?: string;
+  supabaseTable: string;
+  filter?: {
+    column: string;
+    operator: string;
+    value: string;
+  };
+}): Promise<any> => {
+  try {
+    supabaseUrl = supabaseUrl || DEFAULT_SUPABASE_URL;
+    supabaseKey = supabaseKey || DEFAULT_SUPABASE_KEY;
+    const supabase = createSupabaseClient({ supabaseUrl, supabaseKey });
+    const { data: response, error } = filter
+      ? await supabase
+          .from(supabaseTable)
+          .select()
+          .filter(filter.column, filter.operator, filter.value)
+      : await supabase.from(supabaseTable).select("*");
+    if (error) throw error;
+    return response;
+  } catch (error) {
+    console.error({ error });
+    throw error;
+  }
+};
