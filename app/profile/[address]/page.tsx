@@ -211,13 +211,15 @@ export default function Profile({ params }: { params: { address: string } }) {
                   )}
                 </h1>
                 <p className="m-0 p-0 flex items-center text-sm">
-                  {address === "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C" && (
+                  <p className="mr-8">{profile?.identity}</p>
+                  {params.address.toLowerCase() ===
+                    "0x0f060c6cf1E11C5f5dED60932f9CadCAcA24E49C".toLowerCase() && (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <Image
                             src={"/wld.png"}
-                            className="w-5 mr-1 object-contain"
+                            className=" mr-1 object-contain"
                             width={64}
                             height={64}
                             alt={profile.source}
@@ -229,7 +231,6 @@ export default function Profile({ params }: { params: { address: string } }) {
                       </Tooltip>
                     </TooltipProvider>
                   )}
-                  {profile?.identity}
                 </p>
               </div>
               <div className="text-center">
